@@ -1,7 +1,7 @@
 #include "interfaz.h"
 //#include "lista.h"
 
-
+/*
 using namespace std;
 
 bool atletaCreado = false;
@@ -107,9 +107,9 @@ void MenuAtleta()
         }
         case 3:
         {
-            //TODO: Chequear si la capacidad era un parametro más
+            //TODO: Chequear si la capacidad era un parametro mï¿½s
             string nuevoDeporte;
-            cout << "¿Que deporte desea entrenar? :";
+            cout << "ï¿½Que deporte desea entrenar? :";
             cin >> nuevoDeporte;
             atleta.entrenarNuevoDeporte(nuevoDeporte, atleta.capacidad(nuevoDeporte)+1);
             LimpiarPantalla();
@@ -228,12 +228,12 @@ void MenuCompetencia()
         maximaOpcion = 14;
         cout << "3. Finalizar competencia" << endl
             << "4. LinfordChristie" << endl
-            << "5. ¿Ganan los mas capaces?" << endl
+            << "5. ï¿½Ganan los mas capaces?" << endl
             << "6. Sancionar Tramposos" << endl
-            << "7. ¿Le Dio positivo?" << endl
+            << "7. ï¿½Le Dio positivo?" << endl
             << "8. Ranking" << endl
             << "9. Atletas que les toco control" << endl
-            << "10. ¿Finalizada?" << endl
+            << "10. ï¿½Finalizada?" << endl
             << "11. Guardar" << endl
             << "12. Mostrar" << endl
             << "13. Participantes" << endl
@@ -317,7 +317,7 @@ void MenuCompetencia()
         case 5:
         {
             LimpiarPantalla();
-            cout << "¿Ganan los más capaces? " << competencia.gananLosMasCapaces() << endl;
+            cout << "ï¿½Ganan los mï¿½s capaces? " << competencia.gananLosMasCapaces() << endl;
             Pausar();
             LimpiarPantalla();
             break;
@@ -357,7 +357,7 @@ void MenuCompetencia()
         }
         case 10:
         {
-            cout << "¿Está finalizada la competencia? " << competencia.finalizada() << endl;
+            cout << "ï¿½Estï¿½ finalizada la competencia? " << competencia.finalizada() << endl;
             Pausar();
             LimpiarPantalla();
             break;
@@ -468,7 +468,7 @@ void MenuJJOO()
             << "7. Medallero" << endl
             << "8. De paseo" << endl
             << "9. Sequia olimpica" << endl
-            << "10. ¿Ordenados asi hay un patron?" << endl
+            << "10. ï¿½Ordenados asi hay un patron?" << endl
             << "11. Boicot por disciplina" << endl
             << "12. Guardar" << endl
             << "13. Mostrar" << endl
@@ -591,7 +591,7 @@ void MenuJJOO()
         }
         case 10:
         {
-            cout << "¿Hay un patron? " << jjoo.uyOrdenadoAsiHayUnPatron() << endl;
+            cout << "ï¿½Hay un patron? " << jjoo.uyOrdenadoAsiHayUnPatron() << endl;
             Pausar();
             LimpiarPantalla();
             MenuJJOO();
@@ -694,14 +694,14 @@ JJOO MenuCrearJJOO()
     Lista<Atleta> atletas = Lista<Atleta>();
     Lista< Lista<Competencia> > cronograma = Lista< Lista<Competencia> >();
 
-    cout << "Ingrese el año del Juego olimpico: " << endl;
+    cout << "Ingrese el aï¿½o del Juego olimpico: " << endl;
     cin >> anio;
 
 
     bool otraFecha;
     string eleccion;
 
-    cout << "¿Desea ingresar una fecha al JJOO? [s/n] ";
+    cout << "ï¿½Desea ingresar una fecha al JJOO? [s/n] ";
     cin >> eleccion;
     otraFecha = eleccion == "s";
 
@@ -727,11 +727,11 @@ JJOO MenuCrearJJOO()
         }
         cronograma.agregarAtras(nuevaLista);
 
-        cout << "¿Desea ingresar otra fecha al JJOO? [s/n] ";
+        cout << "ï¿½Desea ingresar otra fecha al JJOO? [s/n] ";
         cin >> eleccion;
         otraFecha = eleccion == "s";
     }
-    cout << "¿Desea ingresar todos los participantes de las competencias ingresadas? :" << endl;
+    cout << "ï¿½Desea ingresar todos los participantes de las competencias ingresadas? :" << endl;
     cin >> eleccion;
 
     if (eleccion == "s")
@@ -865,4 +865,4 @@ void MostrarAtletas(Lista<Atleta> atletas, string titulo)
         cout << i << " : " << atletas.iesimo(i).nombre() << endl;
     }
 }
-
+*/

@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include "interfaz.h"
 
 using namespace std;
@@ -8,9 +8,9 @@ Atleta atletaProdigio(const JJOO & j) {
 
 }
 
-int main()
-{
-    MenuPrincipal();
+int main(){
+    //MenuPrincipal();
     return 0;
 }
 
+*/
