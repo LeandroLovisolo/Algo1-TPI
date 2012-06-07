@@ -7,7 +7,7 @@
 class Competencia{
     public:
 
-        Competencia();
+        Competencia() {}
         //Competencia(const Deporte d, const Sexo s, const Lista<Atleta>& participantes);
         Competencia(const Deporte d, const Sexo s, const Lista<Atleta>& participantes) {
         	_categoria = make_pair(d, s);
@@ -110,8 +110,17 @@ class Competencia{
         	}
         }
         //void mostrar(std::ostream& os) const;
+        void mostrar(std::ostream& os) const {
+
+        }
         //void guardar(std::ostream& os) const;
+        void guardar(std::ostream& os) const {
+
+        }
 		//void cargar (std::istream& is);
+        void cargar (std::istream& is) {
+
+        }
 	private:
 
         Categoria _categoria;
@@ -121,28 +130,31 @@ class Competencia{
         Lista<pair<int, bool> > _controlAntidoping;
         Atleta atletaConCia(const int ciaNumber) const {
         	int i = 0;
-            string nombre;
+        	Atleta atle;
+            /*string nombre;
             Sexo sexo;
             int anioNacimiento;
             Pais nacionalidad;
             int ciaNumb;
             Lista<pair<Deporte, int> > _deportes;
+            */
         	while(i<_participantes.longitud()) {
         		if(_participantes.iesimo(i).ciaNumber() == ciaNumber) {
-        			ciaNumb = _participantes.iesimo(i).ciaNumber();
-        			sexo = _participantes.iesimo(i).sexo();
-        			nombre = _participantes.iesimo(i).nombre();
-        			anioNacimiento = _participantes.iesimo(i).anioNacimiento();
-        			nacionalidad = _participantes.iesimo(i).nacionalidad();
+        			atle = _participantes.iesimo(i);
+        			//ciaNumb = _participantes.iesimo(i).ciaNumber();
+        			//sexo = _participantes.iesimo(i).sexo();
+        			//nombre = _participantes.iesimo(i).nombre();
+        			//anioNacimiento = _participantes.iesimo(i).anioNacimiento();
+        			//nacionalidad = _participantes.iesimo(i).nacionalidad();
         		}
         		i++;
         	}
-        	Atleta atle(nombre, sexo, anioNacimiento, nacionalidad, ciaNumb);
-        	i=0;
+        	//Atleta atle(nombre, sexo, anioNacimiento, nacionalidad, ciaNumb);
+        	/*i=0;
         	while(i<atle.deportes().longitud()) {
         		atle.entrenarNuevoDeporte(atle.deportes().iesimo(i), atle.capacidad(atle.deportes().iesimo(i)));
         		i++;
-        	}
+        	}*/
         	return atle;
         }
         bool mismoDoping(const Competencia& c) const {

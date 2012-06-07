@@ -1,16 +1,17 @@
-/*#include <iostream>
+#include <iostream>
 #include "interfaz.h"
 
 using namespace std;
 
 
+//Atleta atletaProdigio(const JJOO & j) {
 Atleta atletaProdigio(const JJOO & j) {
-
+	Atleta atle;
+	return atle;
 }
 
 int main(){
-    //MenuPrincipal();
+    MenuPrincipal();
     return 0;
 }
 
-*/

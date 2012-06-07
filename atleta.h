@@ -7,7 +7,7 @@
 class Atleta{
     public:
 
-        Atleta();
+        Atleta() {}
         Atleta(const string nombre,const Sexo sexo, const int anio, const Pais pais, const int ciaNumber) {
             _nombre = nombre;
             _sexo = sexo;
@@ -119,8 +119,17 @@ class Atleta{
         }
 
         //void mostrar(std::ostream& os) const;
+        void mostrar(std::ostream& os) const {
+
+        }
 		//void guardar(std::ostream& os) const;
+        void guardar(std::ostream& os) const {
+
+        }
 		//void cargar (std::istream& is);
+        void cargar (std::istream& is) {
+
+        }
 
     private:
         string _nombre;

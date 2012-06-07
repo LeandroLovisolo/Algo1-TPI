@@ -1,7 +1,7 @@
 #include "interfaz.h"
-//#include "lista.h"
+#include "lista.h"
+#include <iostream>
 
-/*
 using namespace std;
 
 bool atletaCreado = false;
@@ -53,8 +53,7 @@ void MenuPrincipal()
 /////// MENU ATLETA
 
 Atleta atleta;
-void MenuAtleta()
-{
+void MenuAtleta() {
     int maximaOpcion = 2;
 
     cout << "Creando atleta" << endl
@@ -181,8 +180,7 @@ void MenuAtleta()
     }
 }
 
-Atleta MenuCrearAtleta()
-{
+Atleta MenuCrearAtleta() {
     string nombre;
     string sexo;
     int anio;
@@ -329,6 +327,7 @@ void MenuCompetencia()
             cout << "Tramposos sancionados" << endl;
             Pausar();
             LimpiarPantalla();
+            break;
         }
         case 7:
         {
@@ -865,4 +864,3 @@ void MostrarAtletas(Lista<Atleta> atletas, string titulo)
         cout << i << " : " << atletas.iesimo(i).nombre() << endl;
     }
 }
-*/
