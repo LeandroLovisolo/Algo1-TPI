@@ -69,31 +69,26 @@ class Atleta{
         	int i=0;
         	Lista<pair<Deporte, int> > tempDeportes;
         	pair <Deporte,int> nuevoDep = make_pair (deporte,capacidad);
-        	cout << "Tengo lista: " << this->deportes() << "Voy a agregar: "<< deporte << endl;
+        	cout << "Tengo lista: " << this->deportes() << " Voy a agregar: "<< deporte << endl;
         	if(_deportes.longitud() > 0) {
         		while(i<_deportes.longitud()) {
-        			cout << "Ciclo="<<i<< endl;
-					if(_deportes.iesimo(i).first < deporte) {
-						if((((i+1) < _deportes.longitud()) && (_deportes.iesimo(i+1).first > deporte)) || ((i+1) >= _deportes.longitud())) {
-							tempDeportes.agregarAtras(_deportes.iesimo(i));
-							tempDeportes.agregarAtras(nuevoDep);
-						}
-						else {
-							tempDeportes.agregarAtras(_deportes.iesimo(i));
-						}
-					}
-					else if(_deportes.iesimo(i).first == deporte) {
-						tempDeportes.agregarAtras(nuevoDep);
-					}
-					else if(i == 0) {
-						cout << "Es mas chico "<< endl;
-						tempDeportes.agregarAtras(nuevoDep);
-						tempDeportes.agregarAtras(_deportes.iesimo(i));
-					}
-					else {
-						tempDeportes.agregarAtras(_deportes.iesimo(i));
-					}
-					i++;
+        			cout << "Cliclo letra -> " << _deportes.iesimo(i).first << endl;
+        			if(_deportes.iesimo(i).first < deporte && ((i+1) > _deportes.longitud()) && (_deportes.iesimo(i+1).first > deporte)) {
+        				tempDeportes.agregarAtras(nuevoDep);
+        				tempDeportes.agregarAtras(_deportes.iesimo(i));
+        			}
+        			else if(_deportes.iesimo(i).first < deporte && ((i+1) >= _deportes.longitud())) {
+        				cout << "Es "<<_deportes.iesimo(i).first<<" < "<<deporte << " y es la ultima" <<endl;
+        				tempDeportes.agregarAtras(nuevoDep);
+        				tempDeportes.agregarAtras(_deportes.iesimo(i));
+        			}
+        			else if(_deportes.iesimo(i).first == deporte) {
+        				tempDeportes.agregarAtras(nuevoDep);
+        			}
+        			else {
+        				tempDeportes.agregarAtras(_deportes.iesimo(i));
+        			}
+        			i++;
         		}
         	}
         	else {
@@ -101,10 +96,27 @@ class Atleta{
         		tempDeportes.agregar(nuevoDep);
         	}
         	_deportes = tempDeportes;
+        	cout << "Final: " << deportes() << endl;
 
         }
 
-        bool operator==(const Atleta& a) const;
+        bool operator==(const Atleta& a) const {
+        	bool igual = this->_nombre == a.nombre() && this->_sexo == a.sexo() && this->_anioNacimiento == a.anioNacimiento() &&
+        			this->_nacionalidad == a.nacionalidad() && this->_ciaNumber == a.ciaNumber();
+        	int i=0;
+        	if(a.deportes().longitud() == this->deportes().longitud()) {
+        		while(i<a.deportes().longitud()) {
+        			if(!this->deportes().pertenece((a.deportes().iesimo(i))) || !(this->capacidad(a.deportes().iesimo(i)) ==
+        					a.capacidad(a.deportes().iesimo(i)))) {
+        				igual = false;
+        			}
+        		}
+        		return igual;
+        	}
+        	else {
+        		return false;
+        	}
+        }
 
         //void mostrar(std::ostream& os) const;
 		//void guardar(std::ostream& os) const;
