@@ -54,7 +54,7 @@ std::ostream & operator<<(std::ostream & salida,const Lista<T> & l)
 {
     salida << "[";
     for( int i = 0; i < l.longitud(); i++ ){
-        //salida << l.iesimo(i);
+        salida << l.iesimo(i);
 
         if ( i+1 < l.longitud() ){
             salida << ",";

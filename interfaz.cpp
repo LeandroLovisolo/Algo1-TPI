@@ -62,7 +62,7 @@ void MenuAtleta() {
             << "2. Cargar atleta" << endl;
     if (atletaCreado)
     {
-        maximaOpcion = 10;
+        maximaOpcion = 11;
         cout << "3. Entrenar nuevo deporte" << endl
             << "4. Guardar atleta" << endl
             << "5. Mostrar" << endl
@@ -70,7 +70,8 @@ void MenuAtleta() {
             << "7. Sexo" << endl
             << "8. Anio de nacimiento" << endl
             << "9. Nacionalidad" << endl
-            << "10. CIA Number" << endl;
+            << "10. CIA Number" << endl
+        	<< "11. Deportes" << endl;
     }
 
     int opt = LeerOpcion(maximaOpcion);
@@ -107,10 +108,13 @@ void MenuAtleta() {
         case 3:
         {
             //TODO: Chequear si la capacidad era un parametro m�s
+        	int capacidad;
             string nuevoDeporte;
-            cout << "�Que deporte desea entrenar? :";
+            cout << "Que deporte desea entrenar? :";
             cin >> nuevoDeporte;
-            atleta.entrenarNuevoDeporte(nuevoDeporte, atleta.capacidad(nuevoDeporte)+1);
+            cout << "Con que capacidad? :";
+            cin >> capacidad;
+            atleta.entrenarNuevoDeporte(nuevoDeporte, capacidad);
             LimpiarPantalla();
             MenuAtleta();
             break;
@@ -172,6 +176,14 @@ void MenuAtleta() {
         case 10:
         {
             cout << "CIA Number: " << atleta.ciaNumber() << endl;
+            Pausar();
+            LimpiarPantalla();
+            MenuAtleta();
+            break;
+        }
+        case 11:
+        {
+            cout << "Deportes: " << atleta.deportes() << endl;
             Pausar();
             LimpiarPantalla();
             MenuAtleta();
@@ -279,7 +291,7 @@ void MenuCompetencia()
 
             MostrarAtletas(competencia.participantes(), "Lista de participantes :");
 
-            cout << competencia.participantes() << endl;
+            //cout << competencia.participantes() << endl;
 
             cout << "Ingrese la lista de atletas segun id de la lista, seguido del resultado de doping del mismo. (s para true)"<< endl;
 
