@@ -118,21 +118,22 @@ bool Atleta::operator==(const Atleta& a) const {
 }
 
 void Atleta::mostrar(std::ostream& os) const {
-	cout << "---- Atleta ----" << endl;
-	cout << "Nombre: " << nombre() << " Sexo: ";
+	os << "---- Atleta ----" << endl;
+	os << "Nombre: " << nombre() << " Sexo: ";
 	if(sexo() == Masculino) {
-		cout << "Masculino";
+		os << "Masculino";
 	}
 	else {
-		cout << "Femenino";
+		os << "Femenino";
 	}
-	cout << " Anio: " << anioNacimiento() << " Pais: " << nacionalidad() << " CiaNumber: " << ciaNumber() << endl;
-	cout << "Deportes:" << endl;
-	cout << deportes() << endl;
+	os << " Anio: " << anioNacimiento() << " Pais: " << nacionalidad() << " CiaNumber: " << ciaNumber() << endl;
+	os << "Deportes:" << endl;
+	os << deportes() << endl;
 }
 
 void Atleta::guardar(std::ostream& os) const {
 	//Hay que guardar A |Liu Song| |Masculino| 1972 |China| 123 [(|Tenis de Mesa|, 90)]
+	// A |Pepe| |Masculino| 1991 |Arg| 1 [(|Football|, 13),(|Karate|, 44),(|Zunga|, 17)]
 	os << "A |" << nombre() <<"| |";
 	if(sexo() == Masculino) {
 		os << "Masculino";
@@ -141,39 +142,41 @@ void Atleta::guardar(std::ostream& os) const {
 		os << "Femenino";
 	}
 	os << "| " << anioNacimiento() << " |" << nacionalidad() << "| " << ciaNumber();
-	os << "[";
+	os << " [";
 	int i=0;
 	while(i<deportes().longitud()) {
 		os << "(|" << deportes().iesimo(i) << "|, " << capacidad(deportes().iesimo(i)) << ")";
 		if((i+1)<deportes().longitud()) {
 			os << ",";
 		}
+		i++;
 	}
 	os << "]";
 }
 
 void Atleta::cargar (std::istream& is) {
+	//A |Pepe| |Masculino| 1991 |Arg| 1 [(|Football|, 13),(|Karate|, 44),(|Zunga|, 17)]
 	char c;
-	int anio, ciaNumber, capacidad;
-	string deporte, nombre, sexo, nacionalidad;
-	Sexo sex;
+	int capacidad;
+	string deporte, sexo;
 	is >> c;
 	is >> c;
-	getline(is, nombre, '|');
+	getline(is, _nombre, '|');
 	is >> c;
-	is(is, sexo, '|');
+	getline(is, sexo, '|');
 	if(sexo == "Masculino") {
-		sex = Masculino;
+		_sexo = Masculino;
 	}
 	else {
-		sex = Femenino;
+		_sexo = Femenino;
 	}
-	is >> anio;
+	is >> _anioNacimiento;
 	is >> c;
-	getline(is, nacionalidad, '|');
-	is >> ciaNumber;
+	getline(is, _nacionalidad, '|');
+	is >> _ciaNumber;
 	//Empiezo con la lista de deportes, agarro [
 	is >> c;
+	Lista<pair<Deporte, int> > tempDeportes;
 	bool looper = true;
 	while(looper) {
 		//Agarro (
@@ -196,5 +199,6 @@ void Atleta::cargar (std::istream& is) {
 			//Saco la , que delimita otro deporte, ej, [(|Tenis de Mesa|, 90),(|Bmx|, 90)]
 			is >> c;
 		}
+		entrenarNuevoDeporte(deporte, capacidad);
 	}
 }

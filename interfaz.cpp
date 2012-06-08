@@ -100,6 +100,7 @@ void MenuAtleta() {
             AbrirArchivoParaLeer(archivoEntrada);
             atleta.cargar(archivoEntrada);
             archivoEntrada.close();
+            atleta.mostrar(cout);
             atletaCreado = true;
             LimpiarPantalla();
             MenuAtleta();
