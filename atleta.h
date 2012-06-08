@@ -4,6 +4,11 @@
 #include "tipos.h"
 #include "lista.h"
 
+template<typename T, typename S> ostream& operator<<(ostream& o, const pair<T, S>& x) {
+	o << x.first << " " << x.second;
+	return o;
+}
+
 class Atleta{
     public:
 
@@ -46,7 +51,7 @@ class Atleta{
             int i=0;
             Lista<Deporte> deportes;
             while(i<_deportes.longitud()) {
-                deportes.agregar(_deportes.iesimo(i).first);
+                deportes.agregarAtras(_deportes.iesimo(i).first);
                 i++;
             }
             return deportes;
@@ -69,18 +74,20 @@ class Atleta{
         	int i=0;
         	Lista<pair<Deporte, int> > tempDeportes;
         	pair <Deporte,int> nuevoDep = make_pair (deporte,capacidad);
-        	cout << "Tengo lista: " << this->deportes() << " Voy a agregar: "<< deporte << endl;
+        	//cout << "Tengo lista: " << this->deportes() << " Voy a agregar: "<< deporte << endl;
         	if(_deportes.longitud() > 0) {
         		while(i<_deportes.longitud()) {
-        			cout << "Cliclo letra -> " << _deportes.iesimo(i).first << endl;
-        			if(_deportes.iesimo(i).first < deporte && ((i+1) > _deportes.longitud()) && (_deportes.iesimo(i+1).first > deporte)) {
-        				tempDeportes.agregarAtras(nuevoDep);
+        			//cout << "Cliclo letra -> " << _deportes.iesimo(i).first << endl;
+        			if(_deportes.iesimo(i).first < deporte && ((i+1) < _deportes.longitud()) && (_deportes.iesimo(i+1).first > deporte)) {
         				tempDeportes.agregarAtras(_deportes.iesimo(i));
+        				tempDeportes.agregarAtras(nuevoDep);
         			}
         			else if(_deportes.iesimo(i).first < deporte && ((i+1) >= _deportes.longitud())) {
-        				cout << "Es "<<_deportes.iesimo(i).first<<" < "<<deporte << " y es la ultima" <<endl;
-        				tempDeportes.agregarAtras(nuevoDep);
+        				//cout << "Es "<<_deportes.iesimo(i).first<<" < "<<deporte << " y es la ultima" <<endl;
+        				//cout << "-- " << tempDeportes << endl;
         				tempDeportes.agregarAtras(_deportes.iesimo(i));
+        				tempDeportes.agregarAtras(nuevoDep);
+        				//cout << "-- " << tempDeportes << endl;
         			}
         			else if(_deportes.iesimo(i).first == deporte) {
         				tempDeportes.agregarAtras(nuevoDep);
@@ -96,7 +103,7 @@ class Atleta{
         		tempDeportes.agregar(nuevoDep);
         	}
         	_deportes = tempDeportes;
-        	cout << "Final: " << deportes() << endl;
+        	//cout << "Final: " << deportes() << endl;
 
         }
 
