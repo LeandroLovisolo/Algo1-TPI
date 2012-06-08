@@ -281,7 +281,7 @@ void MenuCompetencia()
 
             cout << competencia.participantes() << endl;
 
-            cout << "Ingrese la lista de atletas segun id de la lista, seguido del resultado de doping del mismo."<< endl;
+            cout << "Ingrese la lista de atletas segun id de la lista, seguido del resultado de doping del mismo. (s para true)"<< endl;
 
             for (int i = 0; i < competencia.participantes().longitud(); i++)
             {
@@ -393,7 +393,14 @@ void MenuCompetencia()
         }
         case 14:
         {
-            cout << "Categoria: " << "[ Deporte: " << competencia.categoria().first << "| Sexo: " << competencia.categoria().second << "]" << endl;
+            cout << "Categoria: " << "[ Deporte: " << competencia.categoria().first;
+            cout << "| Sexo: ";
+            if(competencia.categoria().second == Masculino) {
+            	cout << "Masculino "<< "]" << endl;
+            }
+            else if(competencia.categoria().second == Femenino) {
+            	cout << "Femenino "<< "]" << endl;
+            }
             Pausar();
             LimpiarPantalla();
             MenuCompetencia();
@@ -426,14 +433,31 @@ Competencia MenuCrearCompetencia()
 
     bool otroAtleta;
     string eleccion;
+    string eleccionDeporte;
 
     cout << "Desea ingresar un atleta? [s/n] " << endl;
     cin >> eleccion;
     otroAtleta = eleccion == "s";
 
-    while(otroAtleta)
-    {
-        atletas.agregarAtras(MenuCrearAtleta());
+    while(otroAtleta) {
+    	Atleta nuevoAtle = MenuCrearAtleta();
+        bool entrenarNuevo;
+        cout << "Entrenar Deporte? [s/n]" << endl;
+        cin >> eleccionDeporte;
+        entrenarNuevo = eleccionDeporte == "s";
+        while(entrenarNuevo) {
+        	string nuevoDeporte;
+        	int capacidad;
+        	cout << "Nombre del deporte: ";
+        	cin >> nuevoDeporte;
+        	cout << "Capacidad del deporte: ";
+        	cin >> capacidad;
+        	nuevoAtle.entrenarNuevoDeporte(nuevoDeporte, capacidad);
+            cout << "Entrenar Deporte? [s/n]" << endl;
+            cin >> eleccionDeporte;
+            entrenarNuevo = eleccionDeporte == "s";
+        }
+        atletas.agregarAtras(nuevoAtle);
         cout << "Desea ingresar un atleta? [s/n] ";
         cin >> eleccion;
         cout << endl;
