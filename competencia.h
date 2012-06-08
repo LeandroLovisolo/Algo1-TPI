@@ -7,120 +7,29 @@
 class Competencia{
     public:
 
-        Competencia() {}
-        //Competencia(const Deporte d, const Sexo s, const Lista<Atleta>& participantes);
-        Competencia(const Deporte d, const Sexo s, const Lista<Atleta>& participantes) {
-        	_categoria = make_pair(d, s);
-        	_participantes = participantes;
-        	_finalizada = false;
-        }
-        //Categoria categoria() const;
-        Categoria categoria() const {
-        	return _categoria;
-        }
+        Competencia();
+        Competencia(const Deporte d, const Sexo s, const Lista<Atleta>& participantes);
+        Categoria categoria() const;
 
-        //Lista<Atleta> participantes() const;
-        Lista<Atleta> participantes() const {
-        	return _participantes;
-        }
+        Lista<Atleta> participantes() const;
+        bool finalizada() const;
 
-        //bool finalizada() const;
-        bool finalizada() const {
-        	return _finalizada;
-        }
+        Lista<Atleta> ranking() const;
 
-        //Lista<Atleta> ranking() const;
-        Lista<Atleta> ranking() const {
-        	int i=0;
-        	Lista<Atleta> tempAtletas;
-        	while(i<_ranking.longitud()) {
-        		tempAtletas.agregarAtras(this->atletaConCia(_ranking.iesimo(i)));
-        		i++;
-        	}
-        	return tempAtletas;
-        }
+        Lista<Atleta> lesTocoControlAntidoping() const;
+        bool leDioPositivo(const Atleta& a) const;
+        void finalizar(const Lista<int>& posiciones, const Lista<pair<int, bool> >& control);
+        void linfordChristie(const int ciaNum);
+        bool gananLosMasCapaces() const;
+        void sancionarTramposos();
 
-        //Lista<Atleta> lesTocoControlAntidoping() const;
-        Lista<Atleta> lesTocoControlAntidoping() const {
-        	Lista<Atleta> tempAtle;
-        	int i = 0;
-        	while(i<_controlAntidoping.longitud()) {
-        		tempAtle.agregarAtras(atletaConCia(_controlAntidoping.iesimo(i).first));
-        		i++;
-        	}
-        	return tempAtle;
-        }
+        bool operator==(const Competencia& c) const;
 
-        //bool leDioPositivo(const Atleta& a) const;
-        bool leDioPositivo(const Atleta& a) const {
-           	int i = 0;
-           	bool leDio = false;
-            while(i<_controlAntidoping.longitud()) {
-            	if(_controlAntidoping.iesimo(i).first == a.ciaNumber() && _controlAntidoping.iesimo(i).second) {
-            		leDio = true;
-            	}
-            	i++;
-            }
-            return leDio;
-        }
+        void mostrar(std::ostream& os) const;
 
-        //void finalizar(const Lista<int>& posiciones, const Lista<pair<int, bool> >& control);
-        void finalizar(const Lista<int>& posiciones, const Lista<pair<int, bool> >& control) {
-        	_finalizada = true;
-        	_ranking = posiciones;
-        	_controlAntidoping = control;
+        void guardar(std::ostream& os) const;
 
-        }
-
-        void linfordChristie(const int ciaNum) {
-        	Atleta atle = atletaConCia(ciaNum);
-        	_participantes.sacar(atle);
-        }
-        //bool gananLosMasCapaces() const;
-        bool gananLosMasCapaces() const {
-        	int i=0;
-        	bool masCapaces = true;
-        	while(i<_ranking.longitud()) {
-        		if((i+1) < _ranking.longitud() && !(atletaConCia(_ranking.iesimo(i)).capacidad(categoria().first) >
-        			atletaConCia(_ranking.iesimo(i+1)).capacidad(categoria().first))) {
-        				masCapaces = false;
-        		}
-        		i++;
-        	}
-        	return masCapaces;
-        }
-        //void sancionarTramposos();
-        void sancionarTramposos() {
-        	int i=0;
-        	while(i<_controlAntidoping.longitud()) {
-        		if(_controlAntidoping.iesimo(i).second) {
-        			_ranking.sacar(_controlAntidoping.iesimo(i).first);
-        		}
-        		i++;
-        	}
-        }
-
-        //bool operator==(const Competencia& c) const;
-        bool operator==(const Competencia& c) const {
-        	if((_finalizada && c.finalizada()) || (!_finalizada && !c.finalizada())) {
-        		return mismosParticipantes(c) && mismoDoping(c);
-        	}
-        	else {
-        		return false;
-        	}
-        }
-        //void mostrar(std::ostream& os) const;
-        void mostrar(std::ostream& os) const {
-
-        }
-        //void guardar(std::ostream& os) const;
-        void guardar(std::ostream& os) const {
-
-        }
-		//void cargar (std::istream& is);
-        void cargar (std::istream& is) {
-
-        }
+		void cargar (std::istream& is);
 	private:
 
         Categoria _categoria;
