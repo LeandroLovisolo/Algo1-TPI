@@ -8,85 +8,34 @@ typedef pair<int, pair<int, int> > infoM;
 class JJOO{
     public:
 
-        JJOO() {}
+        JJOO();
         // |cronograma|==cantDias. Si un d�a no hay competencias,q est� la lista vac�a.
         //JJOO(const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia);
-        JJOO(const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia) {
+        JJOO(const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia);
+        int anio() const;
+        Lista<Atleta> atletas() const;
+        int cantDias() const;
+        int jornadaActual() const;
+        Lista<Competencia> cronograma(const int dia) const;
 
-        }
-        int anio() const {
-        	return 1;
-        }
-        Lista<Atleta> atletas() const {
-        	Lista<Atleta> lista;
-        	return lista;
-        }
-        int cantDias() const {
-        	return 1;
-        }
-        int jornadaActual() const {
-        	return 1;
-        }
-        Lista<Competencia> cronograma(const int dia) const {
-        	Lista<Competencia> lista;
-        	return lista;
-        }
+        Lista<Competencia> competencias() const;
+        Lista<Competencia> competenciasFinalizadasConOroEnPodio() const;
 
-        Lista<Competencia> competencias() const {
-        	Lista<Competencia> lista;
-        	return lista;
-        }
-        Lista<Competencia> competenciasFinalizadasConOroEnPodio() const {
-        	Lista<Competencia> lista;
-        	return lista;
-        }
+        Lista<Atleta> dePaseo() const;
+        Lista<pair<Pais,Lista<int> > > medallero() const;
+        int boicotPorDisciplina(const Categoria cat, const Pais p);
+        Lista<Atleta> losMasFracasados(const Pais p) const;
+        void liuSong(const Atleta& a, const Pais p);
+        Atleta stevenBradbury() const;
+        bool uyOrdenadoAsiHayUnPatron() const;
+        Lista<Pais> sequiaOlimpica() const;
+        void transcurrirDia();
 
-        Lista<Atleta> dePaseo() const {
-        	Lista<Atleta> lista;
-        	return lista;
-        }
-        Lista<pair<Pais,Lista<int> > > medallero() const {
-        	Lista<pair<Pais,Lista<int> > > lista;
-        	return lista;
-        }
-        int boicotPorDisciplina(const Categoria cat, const Pais p) {
-        	return 1;
-        }
-        Lista<Atleta> losMasFracasados(const Pais p) const {
-        	Lista<Atleta> lista;
-        	return lista;
-        }
-        void liuSong(const Atleta& a, const Pais p) {
+		bool operator==(const JJOO& j) const;
 
-        }
-        Atleta stevenBradbury() const {
-        	Atleta atleta;
-        	return atleta;
-        }
-        bool uyOrdenadoAsiHayUnPatron() const {
-        	return true;
-        }
-        Lista<Pais> sequiaOlimpica() const {
-        	Lista<Pais> lista;
-        	return lista;
-        }
-        void transcurrirDia() {
-
-        }
-
-		bool operator==(const JJOO& j) const {
-			return true;
-		}
-
-        void mostrar(std::ostream& os) const {
-
-        }
-		void guardar(std::ostream& os) const {
-
-		}
-		void cargar (std::istream& is) {
-
-		}
+        void mostrar(std::ostream& os) const;
+		void guardar(std::ostream& os) const;
+		void cargar (std::istream& is);
 
     private:
         int _anio;

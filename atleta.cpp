@@ -117,15 +117,84 @@ bool Atleta::operator==(const Atleta& a) const {
     }
 }
 
-    //void mostrar(std::ostream& os) const;
 void Atleta::mostrar(std::ostream& os) const {
-
+	cout << "---- Atleta ----" << endl;
+	cout << "Nombre: " << nombre() << " Sexo: ";
+	if(sexo() == Masculino) {
+		cout << "Masculino";
+	}
+	else {
+		cout << "Femenino";
+	}
+	cout << " Anio: " << anioNacimiento() << " Pais: " << nacionalidad() << " CiaNumber: " << ciaNumber() << endl;
+	cout << "Deportes:" << endl;
+	cout << deportes() << endl;
 }
-	//void guardar(std::ostream& os) const;
+
 void Atleta::guardar(std::ostream& os) const {
-
+	//Hay que guardar A |Liu Song| |Masculino| 1972 |China| 123 [(|Tenis de Mesa|, 90)]
+	os << "A |" << nombre() <<"| |";
+	if(sexo() == Masculino) {
+		os << "Masculino";
+	}
+	else {
+		os << "Femenino";
+	}
+	os << "| " << anioNacimiento() << " |" << nacionalidad() << "| " << ciaNumber();
+	os << "[";
+	int i=0;
+	while(i<deportes().longitud()) {
+		os << "(|" << deportes().iesimo(i) << "|, " << capacidad(deportes().iesimo(i)) << ")";
+		if((i+1)<deportes().longitud()) {
+			os << ",";
+		}
+	}
+	os << "]";
 }
-	//void cargar (std::istream& is);
-void Atleta::cargar (std::istream& is) {
 
+void Atleta::cargar (std::istream& is) {
+	char c;
+	int anio, ciaNumber, capacidad;
+	string deporte, nombre, sexo, nacionalidad;
+	Sexo sex;
+	is >> c;
+	is >> c;
+	getline(is, nombre, '|');
+	is >> c;
+	is(is, sexo, '|');
+	if(sexo == "Masculino") {
+		sex = Masculino;
+	}
+	else {
+		sex = Femenino;
+	}
+	is >> anio;
+	is >> c;
+	getline(is, nacionalidad, '|');
+	is >> ciaNumber;
+	//Empiezo con la lista de deportes, agarro [
+	is >> c;
+	bool looper = true;
+	while(looper) {
+		//Agarro (
+		is >> c;
+		//Agarro |
+		is >> c;
+		//Agarro el deporte
+		getline(is, deporte, '|');
+		//Agarro la ,
+		is >> c;
+		//Agarro capacidad
+		is >> capacidad;
+		//Agarro )
+		is >> c;
+		//Peek se fija sin agarrar el caracter, cual es el siguiente
+		if(is.peek() != ',') {
+			looper = false;
+		}
+		else {
+			//Saco la , que delimita otro deporte, ej, [(|Tenis de Mesa|, 90),(|Bmx|, 90)]
+			is >> c;
+		}
+	}
 }

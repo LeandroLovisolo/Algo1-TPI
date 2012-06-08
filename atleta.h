@@ -1,6 +1,7 @@
 #ifndef ATLETA_H
 #define ATLETA_H
 #include <iostream>
+#include <fstream>
 #include "tipos.h"
 #include "lista.h"
 
