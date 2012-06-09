@@ -1,7 +1,13 @@
 #include "interfaz.h"
 #include "lista.h"
 #include <iostream>
-
+#include <sstream>
+#include <string>
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+*/
 using namespace std;
 
 bool atletaCreado = false;
@@ -488,15 +494,16 @@ JJOO jjoo;
 
 void MenuJJOO()
 {
-    int maximaOpcion = 2;
+    int maximaOpcion = 19;
 
     cout << "Creando competencia" << endl
             << "0. Volver al Menu Principal" << endl
             << "1. Crear JJOO" << endl
-            << "2. Cargar JJOO" << endl;
+            << "2. Cargar JJOO" << endl
+    		<< "19. Cargar JJOO Generado" << endl;
     if (jjooCreado)
     {
-        maximaOpcion = 18;
+        maximaOpcion = 19;
         cout << "3. Transcurrir dia" << endl
             << "4. StevenBradbury" << endl
             << "5. LiuSong" << endl
@@ -572,10 +579,22 @@ void MenuJJOO()
             string pais;
             LimpiarPantalla();
             MostrarAtletas(jjoo.atletas(), "Atletas del Juego Olimpico: ");
-            cout << "Indique el atleta y el pais al cual sera nacionalizado :" << endl;
+            cout << "Indique el atleta [0.."<<jjoo.atletas().longitud() <<"] y el pais al cual sera nacionalizado :" << endl;
             cin >> id;
             cin >> pais;
+            Atleta aNacionalizar = jjoo.atletas().iesimo(id);
             jjoo.liuSong(jjoo.atletas().iesimo(id), pais);
+            int y = 0;
+            bool funciona = true;
+            while(y<jjoo.competencias().longitud()) {
+            	if(jjoo.competencias().iesimo(y).participantes().pertenece(aNacionalizar)) {
+            		funciona = false;
+            	}
+            	y++;
+            }
+            if(funciona && !jjoo.atletas().pertenece(aNacionalizar)) {
+            	cout << "Se ha nacionalizado perfectamente!" << endl;
+            }
             Pausar();
             LimpiarPantalla();
             MenuJJOO();
@@ -719,6 +738,52 @@ void MenuJJOO()
             LimpiarPantalla();
             MenuJJOO();
             break;
+        }
+        case 19:
+        {
+        	cout << "Empezando a generar" << endl;
+        	int i=0, j=0;
+        	Lista<Atleta> participantes;
+        	while(i<10) {
+        		string name = "Atleta ";
+        		std::stringstream s;
+        		s << name << i;
+        		name = s.str();
+        		Atleta atle(name, Masculino, 1991 ,"Arg", i);
+        		while(j<10) {
+        			string dep = "Deporte ";
+            		std::stringstream s;
+            		s << dep << j;
+            		dep = s.str();
+        			atle.entrenarNuevoDeporte(dep, 100-(j*5)-(i));
+        			j++;
+        		}
+        		i++;
+        		participantes.agregarAtras(atle);
+        	}
+        	cout << "Participantes generados" << endl;
+        	i=0,j=0;
+        	Lista<Competencia> competencias;
+        	while(i<10) {
+    			string dep = "Deporte ";
+        		std::stringstream s;
+        		s << dep << i;
+        		dep = s.str();
+        		Competencia compe(dep, Masculino, participantes);
+        		competencias.agregarAtras(compe);
+        		i++;
+        	}
+        	cout << "Competencias generadas" << endl;
+        	Lista<Lista<Competencia> > competenciasPorDia;
+        	competenciasPorDia.agregarAtras(competencias);
+        	participantes.agregarAtras(Atleta("Descolocado", Masculino, 1990 ,"Uganda", 11));
+        	jjoo = JJOO(1991, participantes, competenciasPorDia);
+        	jjooCreado = true;
+        	cout << "Se ha generado el JJOO! " << endl;
+            Pausar();
+            LimpiarPantalla();
+            MenuJJOO();
+        	break;
         }
     }
 }
