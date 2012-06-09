@@ -137,8 +137,71 @@ void Competencia::mostrar(std::ostream& os) const {
 
 }
 
-void Competencia::guardar(std::ostream& os) const {
+/*
+C (|Rugby|, |Masculino|) |True|
+[(A |Juan| |Masculino| 1920 |Argentina| 1 [(|Football|, 35), (|Rugby|, 10)]),
+(A |Jorge| |Masculino| 1930 |Argentina| 2 [(|Football|, 32), (|Rugby|, 20)]),
+(A |Jackson| |Masculino| 1935 |Escocia| 6 [(|Basket|, 25), (|Football|, 40), (|Rugby|, 5)])]
+[1, 6] [(1, |True|), (6, |True|)]
+ */
 
+void Competencia::guardar(std::ostream& os) const {
+	os << "C (|" << _categoria.first << "|, |";
+	if(_categoria.second == Masculino) {
+		os << "Masculino";
+	}
+	else {
+		os << "Femenino";
+	}
+	os << ") |";
+	if(finalizada()) {
+		os << "True";
+	}
+	else {
+		os << "False";
+	}
+	os << "| [";
+	int i=0;
+	while(i<participantes().longitud()) {
+		os << "(";
+		participantes().iesimo(i).guardar(os);
+		os << ")";
+		i++;
+		if(i<participantes().longitud()) {
+			os << ",";
+		}
+	}
+	os << "] ";
+	if(finalizada()) {
+		os << "[";
+		i=0;
+		while(i<ranking().longitud()) {
+			os << ranking().iesimo(i).ciaNumber();
+			i++;
+			if(i<ranking().longitud()) {
+				os << ",";
+			}
+		}
+		os << "] [";
+		i=0;
+		while(i<lesTocoControlAntidoping().longitud()) {
+			os << "(" << lesTocoControlAntidoping().iesimo(i).ciaNumber() << ", " << "|";
+			if(leDioPositivo(lesTocoControlAntidoping().iesimo(i))) {
+				os << "True" << "|)";
+			}
+			else {
+				os << "False" << "|)";
+			}
+			i++;
+			if(i<lesTocoControlAntidoping().longitud()) {
+				os << ",";
+			}
+		}
+		os << "]";
+	}
+	else {
+		os << "[] []";
+	}
 }
 
 void Competencia::cargar (std::istream& is) {
