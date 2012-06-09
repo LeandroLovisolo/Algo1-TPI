@@ -10,7 +10,6 @@ class JJOO{
 
         JJOO();
         // |cronograma|==cantDias. Si un d�a no hay competencias,q est� la lista vac�a.
-        //JJOO(const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia);
         JJOO(const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia);
         int anio() const;
         Lista<Atleta> atletas() const;
@@ -46,11 +45,11 @@ class JJOO{
         Lista<Atleta> participantesJJOO(const Lista<Competencia> competencias) const {
             int i=0;
             Lista<Atleta> participantes;
-                while (i < competencias.longitud()) {
-                    participantes.concatenar((competencias.iesimo(i)).participantes());
-                    i++;
-                }
-        return participantes;
+            while (i < competencias.longitud()) {
+                participantes.concatenar(competencias.iesimo(i).participantes());
+                i++;
+            }
+            return participantes;
         }
 
         enum {ENCABEZADO_ARCHIVO = 'J'};
