@@ -3,9 +3,7 @@
 #include "lista.h"
 #include "jjoo.h"
 
-JJOO::JJOO () {
-    _jornadaActual = 1;
-}
+JJOO::JJOO () {}
 JJOO::JJOO (const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia){
     _anio = anio;
     _atletas = atletas;
@@ -38,11 +36,27 @@ Lista<Competencia> JJOO::competencias() const {
 }
 
 Lista<Competencia> JJOO::competenciasFinalizadasConOroEnPodio() const {
-	return Lista<Competencia>();
+	int i = 0;
+	Lista<Competencia> comp;
+        while (i < competencias().longitud())   {
+            if ((competencias().iesimo(i)).finalizada() && ((competencias().iesimo(i)).ranking()).longitud() > 0 )
+                {comp.agregar(competencias().iesimo(i));
+                }
+            i++;
+        }
+	return comp;
 }
 
 Lista<Atleta> JJOO::dePaseo() const {
-	return Lista<Atleta>();
+    int i=0;
+    Lista<Atleta> atletas;
+        while (i < _atletas.longitud()) {
+            if (participantesJJOO(competencias()).pertenece(_atletas.iesimo(i))) {
+                atletas.agregar(_atletas.iesimo(i));
+            }
+            i++;
+        }
+	return atletas;
 }
 
 Lista<pair<Pais,Lista<int> > > JJOO::medallero() const {
