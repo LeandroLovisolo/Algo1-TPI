@@ -109,6 +109,7 @@ bool Atleta::operator==(const Atleta& a) const {
     				a.capacidad(a.deportes().iesimo(i)))) {
     			igual = false;
     		}
+    		i++;
     	}
     	return igual;
     }
