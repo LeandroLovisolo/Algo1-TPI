@@ -99,6 +99,41 @@ bool Competencia::operator==(const Competencia& c) const {
 }
 
 void Competencia::mostrar(std::ostream& os) const {
+	os << "Competencia:" << endl << "Categoria: " << _categoria.first << " ";
+	if(_categoria.second == Masculino) {
+		os << "Masculino";
+	}
+	else {
+		os << "Femeninio";
+	}
+	os << endl << "Finalizada: ";
+	if(_finalizada) {
+		os << "Si" << endl;
+		int i = 0;
+		os << "Ranking: [";
+		while(i<ranking().longitud()) {
+			os << ranking().iesimo(i).nombre();
+			i++;
+			if(i<ranking().longitud()) {
+				os << ",";
+			}
+		}
+		os << "]" << endl;
+		i=0;
+		os << "Dopping : [";
+		while(i<lesTocoControlAntidoping().longitud()) {
+			os << "<" << lesTocoControlAntidoping().iesimo(i).nombre() << ",";
+			os << leDioPositivo(lesTocoControlAntidoping().iesimo(i)) << ">";
+			i++;
+			if(i<lesTocoControlAntidoping().longitud()) {
+				os << ",";
+			}
+		}
+		os << "]" << endl;
+	}
+	else {
+		os << "No";
+	}
 
 }
 
