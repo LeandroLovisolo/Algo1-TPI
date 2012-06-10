@@ -178,28 +178,32 @@ void Atleta::cargar (std::istream& is) {
 	//Empiezo con la lista de deportes, agarro [
 	is >> c;
 	Lista<pair<Deporte, int> > tempDeportes;
-	bool looper = true;
-	while(looper) {
-		//Agarro (
-		is >> c;
-		//Agarro |
-		is >> c;
-		//Agarro el deporte
-		getline(is, deporte, '|');
-		//Agarro la ,
-		is >> c;
-		//Agarro capacidad
-		is >> capacidad;
-		//Agarro )
-		is >> c;
-		//Peek se fija sin agarrar el caracter, cual es el siguiente
-		if(is.peek() != ',') {
-			looper = false;
-		}
-		else {
-			//Saco la , que delimita otro deporte, ej, [(|Tenis de Mesa|, 90),(|Bmx|, 90)]
+	if(is.peek() != ']') {
+		bool looper = true;
+		while(looper) {
+			//Agarro (
 			is >> c;
+			//Agarro |
+			is >> c;
+			//Agarro el deporte
+			getline(is, deporte, '|');
+			//Agarro la ,
+			is >> c;
+			//Agarro capacidad
+			is >> capacidad;
+			//Agarro )
+			is >> c;
+			//Peek se fija sin agarrar el caracter, cual es el siguiente
+			if(is.peek() != ',') {
+				looper = false;
+			}
+			else {
+				//Saco la , que delimita otro deporte, ej, [(|Tenis de Mesa|, 90),(|Bmx|, 90)]
+				is >> c;
+			}
+			entrenarNuevoDeporte(deporte, capacidad);
 		}
-		entrenarNuevoDeporte(deporte, capacidad);
 	}
+	//Saco el ultimo ]
+	is >> c;
 }
