@@ -66,7 +66,64 @@ Lista<pair<Pais,Lista<int> > > JJOO::medallero() const {
 }
 
 int JJOO::boicotPorDisciplina(const Categoria cat, const Pais p) {
-	return 1;
+	int i=0;
+	int sacados = 0;
+	Lista<Lista<Competencia> > nuevaCompetenciasPorDia;
+	while(i<_competenciasPorDia.longitud()) {
+		int j=0;
+		Lista<Competencia> competenciasEnElDia;
+		while(j<_competenciasPorDia.iesimo(i).longitud()) {
+			if(_competenciasPorDia.iesimo(i).iesimo(j).categoria() == cat) {
+				Competencia viejaCompe = _competenciasPorDia.iesimo(i).iesimo(j);
+				Lista<Atleta> participantes = viejaCompe.participantes();
+				Lista<Atleta> tempParticipantes = viejaCompe.participantes();
+				string deporte = viejaCompe.categoria().first;
+				Lista<int> ciaNumberDeSacados;
+				Sexo sexo = viejaCompe.categoria().second;
+				int h=0;
+				while(h<tempParticipantes.longitud()) {
+					if(tempParticipantes.iesimo(h).nacionalidad() == p) {
+						participantes.sacar(tempParticipantes.iesimo(h));
+						sacados++;
+						ciaNumberDeSacados.agregarAtras(tempParticipantes.iesimo(h).ciaNumber());
+					}
+					h++;
+				}
+				Competencia nuevaCompe(deporte, sexo, participantes);
+				if(viejaCompe.finalizada()) {
+					int h = 0;
+					Lista<int> ranking;
+					Lista<pair<int, bool> > control;
+					while(h<viejaCompe.ranking().longitud()) {
+						if(!ciaNumberDeSacados.pertenece(viejaCompe.ranking().iesimo(h).ciaNumber())) {
+							ranking.agregarAtras(viejaCompe.ranking().iesimo(h).ciaNumber());
+						}
+						h++;
+					}
+					h = 0;
+					while(h<viejaCompe.lesTocoControlAntidoping().longitud()) {
+						if(!ciaNumberDeSacados.pertenece(viejaCompe.lesTocoControlAntidoping().iesimo(h).ciaNumber())) {
+							bool leToco = viejaCompe.leDioPositivo(viejaCompe.lesTocoControlAntidoping().iesimo(h));
+							int suCiaNumber = viejaCompe.lesTocoControlAntidoping().iesimo(h).ciaNumber();
+							pair<int, bool> par = make_pair(suCiaNumber, leToco);
+							control.agregarAtras(par);
+						}
+						h++;
+					}
+					nuevaCompe.finalizar(ranking, control);
+				}
+				competenciasEnElDia.agregarAtras(nuevaCompe);
+			}
+			else {
+				competenciasEnElDia.agregarAtras(_competenciasPorDia.iesimo(i).iesimo(j));
+			}
+			j++;
+		}
+		nuevaCompetenciasPorDia.agregarAtras(competenciasEnElDia);
+		i++;
+	}
+	_competenciasPorDia = nuevaCompetenciasPorDia;
+	return sacados;
 }
 
 Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
