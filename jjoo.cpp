@@ -165,10 +165,59 @@ bool JJOO::operator==(const JJOO& j) const {
 }
 
 void JJOO::mostrar(std::ostream& os) const {
+	os << "Juego olimpico" << endl << "Anio: " << _anio << " Dia: " << _jornadaActual << "/" << cantDias() << endl;
+	os << "Participantes:" << endl;
+	int i = 0;
+	while(i<_atletas.longitud()) {
+		_atletas.iesimo(i).mostrar(os);
+		i++;
+	}
+	os << endl << "Cronograma:" << endl;
+	i=0;
+	while(i<_competenciasPorDia.longitud()) {
+		os << "Dia: " << (i+1) << "/" << cantDias() << endl;
+		int j=0;
+		while(j<_competenciasPorDia.iesimo(i).longitud()) {
+			_competenciasPorDia.iesimo(i).iesimo(j).mostrar(os);
+			j++;
+		}
+		i++;
+	}
 
 }
 void JJOO::guardar(std::ostream& os) const {
-
+	os << "J " << _anio << " " << _jornadaActual << " [";
+	int i=0;
+	while(i<_atletas.longitud()) {
+		os << "(";
+		_atletas.iesimo(i).guardar(os);
+		os << ")";
+		i++;
+		if(i<_atletas.longitud()) {
+			os << ",";
+		}
+	}
+	os << "] [";
+	i=0;
+	while(i<_competenciasPorDia.longitud()) {
+		os << "[";
+		int j=0;
+		while(j<_competenciasPorDia.iesimo(i).longitud()) {
+			os << "(";
+			_competenciasPorDia.iesimo(i).iesimo(j).guardar(os);
+			os << ")";
+			j++;
+			if(j<_competenciasPorDia.iesimo(i).longitud()) {
+				os << ",";
+			}
+		}
+		os << "]";
+		i++;
+		if(i<_competenciasPorDia.longitud()) {
+			os << ",";
+		}
+	}
+	os << "]";
 }
 void JJOO::cargar (std::istream& is) {
 
