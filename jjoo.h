@@ -41,17 +41,7 @@ class JJOO{
         Lista<Atleta> _atletas;
         int _jornadaActual;
         Lista<Lista<Competencia> > _competenciasPorDia;         // En la i-�sima posici�n de la lista, las competencias del d�a i+1.
-
-        Lista<Atleta> participantesJJOO(const Lista<Competencia> competencias) const {
-            int i=0;
-            Lista<Atleta> participantes;
-            while (i < competencias.longitud()) {
-                participantes.concatenar(competencias.iesimo(i).participantes());
-                i++;
-            }
-            return participantes;
-        }
-
+        Lista<Atleta> participantesJJOO(const Lista<Competencia> competencias) const;
         enum {ENCABEZADO_ARCHIVO = 'J'};
 };
 std::ostream & operator<<(std::ostream & os,const JJOO & j);

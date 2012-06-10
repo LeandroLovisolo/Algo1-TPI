@@ -23,7 +23,7 @@ int JJOO::jornadaActual() const {
     return _jornadaActual;
 }
 Lista<Competencia> JJOO::cronograma(const int dia) const {
-    return _competenciasPorDia.iesimo(dia);
+    return _competenciasPorDia.iesimo(dia-1);
 }
 Lista<Competencia> JJOO::competencias() const {
     int i = 0;
@@ -221,4 +221,15 @@ void JJOO::guardar(std::ostream& os) const {
 }
 void JJOO::cargar (std::istream& is) {
 
+}
+
+//AUX
+Lista<Atleta> JJOO::participantesJJOO(const Lista<Competencia> competencias) const {
+	int i=0;
+	Lista<Atleta> participantes;
+	while (i < competencias.longitud()) {
+    	participantes.concatenar(competencias.iesimo(i).participantes());
+    	i++;
+	}
+	return participantes;
 }
