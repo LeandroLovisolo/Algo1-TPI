@@ -143,7 +143,7 @@ void Competencia::mostrar(std::ostream& os) const {
 		os << "]" << endl;
 	}
 	else {
-		os << "No";
+		os << "No" << endl;
 	}
 
 }

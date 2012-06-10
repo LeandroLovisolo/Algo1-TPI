@@ -750,6 +750,7 @@ void MenuJJOO()
         		s << name << i;
         		name = s.str();
         		Atleta atle(name, Masculino, 1991 ,"Arg", i);
+        		j=0;
         		while(j<10) {
         			string dep = "Deporte ";
             		std::stringstream s;
