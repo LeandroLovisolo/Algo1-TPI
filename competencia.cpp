@@ -328,3 +328,50 @@ void Competencia::cargar (std::istream& is) {
 		is >> c >> c >> c >> c;
 	}
 }
+
+//AUX
+Atleta Competencia::atletaConCia(const int ciaNumber) const {
+	int i = 0;
+	Atleta atle;
+	while(i<_participantes.longitud()) {
+		if(_participantes.iesimo(i).ciaNumber() == ciaNumber) {
+			atle = _participantes.iesimo(i);
+		}
+		i++;
+	}
+	return atle;
+}
+bool Competencia::mismoDoping(const Competencia& c) const {
+	int i = 0;
+	bool igual = true;
+	if(_controlAntidoping.longitud() == c.lesTocoControlAntidoping().longitud()) {
+		while(i<_controlAntidoping.longitud()) {
+			if(!c.lesTocoControlAntidoping().pertenece(atletaConCia(_controlAntidoping.iesimo(i).first)) ||
+					!(c.leDioPositivo(atletaConCia(_controlAntidoping.iesimo(i).first)) == _controlAntidoping.iesimo(i).second)) {
+				igual = false;
+			}
+			i++;
+		}
+		return igual;
+	}
+	else {
+		return false;
+	}
+}
+bool Competencia::mismosParticipantes(const Competencia& c) const {
+	int i = 0;
+	bool igual = true;
+	if(_participantes.longitud() == c.participantes().longitud()) {
+		while(i<_participantes.longitud()) {
+			if(!c.participantes().pertenece(_participantes.iesimo(i))) {
+				igual = false;
+			}
+			i++;
+		}
+		return igual;
+	}
+	else {
+		return false;
+	}
+}
+
