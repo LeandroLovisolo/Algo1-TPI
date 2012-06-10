@@ -579,7 +579,7 @@ void MenuJJOO()
             string pais;
             LimpiarPantalla();
             MostrarAtletas(jjoo.atletas(), "Atletas del Juego Olimpico: ");
-            cout << "Indique el atleta [0.."<<jjoo.atletas().longitud() <<"] y el pais al cual sera nacionalizado :" << endl;
+            cout << "Indique el atleta [0.."<< jjoo.atletas().longitud() << "] y el pais al cual sera nacionalizado :" << endl;
             cin >> id;
             cin >> pais;
             Atleta aNacionalizar = jjoo.atletas().iesimo(id);
@@ -646,7 +646,7 @@ void MenuJJOO()
         }
         case 10:
         {
-            cout << "�Hay un patron? " << jjoo.uyOrdenadoAsiHayUnPatron() << endl;
+            cout << "Hay un patron? " << jjoo.uyOrdenadoAsiHayUnPatron() << endl;
             Pausar();
             LimpiarPantalla();
             MenuJJOO();
@@ -669,7 +669,7 @@ void MenuJJOO()
             {
                 sexoFinal = Masculino;
             }
-            jjoo.boicotPorDisciplina(pair<Deporte, Sexo>(deporte, sexoFinal), pais);
+            cout << "Se retiraron " << jjoo.boicotPorDisciplina(pair<Deporte, Sexo>(deporte, sexoFinal), pais) << " atletas" << endl;
             cout << "Boicot aplicado" << endl;
             Pausar();
             LimpiarPantalla();
@@ -766,7 +766,7 @@ void MenuJJOO()
         	i=0,j=0;
         	Lista<Competencia> competencias;
         	while(i<10) {
-    			string dep = "Deporte ";
+    			string dep = "Deporte-";
         		std::stringstream s;
         		s << dep << i;
         		dep = s.str();
@@ -796,14 +796,14 @@ JJOO MenuCrearJJOO()
     Lista<Atleta> atletas = Lista<Atleta>();
     Lista< Lista<Competencia> > cronograma = Lista< Lista<Competencia> >();
 
-    cout << "Ingrese el a�o del Juego olimpico: " << endl;
+    cout << "Ingrese el anio del Juego olimpico: " << endl;
     cin >> anio;
 
 
     bool otraFecha;
     string eleccion;
 
-    cout << "�Desea ingresar una fecha al JJOO? [s/n] ";
+    cout << "Desea ingresar una fecha al JJOO? [s/n] ";
     cin >> eleccion;
     otraFecha = eleccion == "s";
 
