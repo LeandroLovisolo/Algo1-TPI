@@ -106,6 +106,17 @@ void Competencia::mostrar(std::ostream& os) const {
 	else {
 		os << "Femeninio";
 	}
+	os << endl << "Participantes:" << endl;
+	int i=0;
+	while(i<participantes().longitud()) {
+		os << "(";
+		participantes().iesimo(i).guardar(os);
+		os << ")";
+		i++;
+		if(i<participantes().longitud()) {
+			os << ",";
+		}
+	}
 	os << endl << "Finalizada: ";
 	if(_finalizada) {
 		os << "Si" << endl;
@@ -137,13 +148,6 @@ void Competencia::mostrar(std::ostream& os) const {
 
 }
 
-/*
-C (|Rugby|, |Masculino|) |True|
-[(A |Juan| |Masculino| 1920 |Argentina| 1 [(|Football|, 35), (|Rugby|, 10)]),
-(A |Jorge| |Masculino| 1930 |Argentina| 2 [(|Football|, 32), (|Rugby|, 20)]),
-(A |Jackson| |Masculino| 1935 |Escocia| 6 [(|Basket|, 25), (|Football|, 40), (|Rugby|, 5)])]
-[1, 6] [(1, |True|), (6, |True|)]
- */
 
 void Competencia::guardar(std::ostream& os) const {
 	os << "C (|" << _categoria.first << "|, |";
@@ -153,7 +157,7 @@ void Competencia::guardar(std::ostream& os) const {
 	else {
 		os << "Femenino";
 	}
-	os << ") |";
+	os << "|) |";
 	if(finalizada()) {
 		os << "True";
 	}
@@ -204,6 +208,123 @@ void Competencia::guardar(std::ostream& os) const {
 	}
 }
 
-void Competencia::cargar (std::istream& is) {
+/*
+C (|Rugby|, |Masculino|) |True|
+[(A |Juan| |Masculino| 1920 |Argentina| 1 [(|Football|, 35), (|Rugby|, 10)]),
+(A |Jorge| |Masculino| 1930 |Argentina| 2 [(|Football|, 32), (|Rugby|, 20)]),
+(A |Jackson| |Masculino| 1935 |Escocia| 6 [(|Basket|, 25), (|Football|, 40), (|Rugby|, 5)])]
+[1, 6] [(1, |True|), (6, |True|)]
+ */
 
+void Competencia::cargar (std::istream& is) {
+	char c;
+	string stringDeporte;
+	string stringSexo;
+	Sexo sexo;
+	string stringFinalizada;
+	//Saco C , ( y |
+	is >> c >> c >> c;
+	getline(is, stringDeporte, '|');
+	//Saco , y |
+	is >> c >> c;
+	getline(is, stringSexo, '|');
+	if(stringSexo == "Masculino") {
+		sexo = Masculino;
+	}
+	else {
+		sexo = Femenino;
+	}
+	//Saco ) y |
+	is >> c >> c;
+	getline(is, stringFinalizada, '|');
+	if(stringFinalizada == "True") {
+		_finalizada = true;
+	}
+	else {
+		_finalizada = false;
+	}
+	//Saco [
+	is >> c;
+	Lista<Atleta> atletas;
+	//Me fijo si atletas no es vacio
+	if(is.peek() != ']') {
+		bool loop = true;
+		while(loop) {
+			//Saco (
+			is >> c;
+			Atleta atle;
+			atle.cargar(is);
+			atletas.agregarAtras(atle);
+			//Saco )
+			is >> c;
+			if(is.peek() != ',') {
+				loop = false;
+			}
+			else {
+				//Saco la ,
+				is >> c;
+			}
+		}
+	}
+	//Saco ]
+	is >> c;
+	_participantes = atletas;
+	_categoria = make_pair(stringDeporte, sexo);
+	if(_finalizada) {
+		Lista<int> ranking;
+		Lista<pair<int, bool> > doping;
+		bool loop = true;
+		//Saco [
+		is >> c;
+		//Me fijo si el ranking no esta vacio
+		if(is.peek() != ']') {
+			while(loop) {
+				int ciaNumber;
+				is >> ciaNumber;
+				if(is.peek() != ',') {
+					loop = false;
+				}
+				else {
+					//Saco la ,
+					is >> c;
+				}
+				ranking.agregarAtras(ciaNumber);
+			}
+		}
+		//Saco ] y [
+		is >> c >> c;
+		//Me fijo si el doping no esta vacio
+		if(is.peek() != ']') {
+			loop = true;
+			while(loop) {
+				int ciaNumber;
+				bool positive;
+				string dopingStatus;
+				//Saco (, ciaNumber, la , y |
+				is >> c >> ciaNumber >> c >> c;
+				getline(is, dopingStatus, '|');
+				//Saco )
+				is >> c;
+				if(is.peek() != ',') {
+					loop = false;
+				}
+				else {
+					//Saco la ,
+					is >> c;
+				}
+				if(dopingStatus == "True") {
+					positive = true;
+				}
+				else {
+					positive = false;
+				}
+				doping.agregarAtras(make_pair(ciaNumber, positive));
+			}
+		}
+		finalizar(ranking, doping);
+	}
+	else {
+		//Saco [] []
+		is >> c >> c >> c >> c;
+	}
 }
