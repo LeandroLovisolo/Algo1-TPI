@@ -317,6 +317,74 @@ void JJOO::guardar(std::ostream& os) const {
 	os << "]";
 }
 void JJOO::cargar (std::istream& is) {
+	char c;
+	//Saco J anio jornada [
+	is >> c >> _anio >> _jornadaActual >> c;
+	bool loop = true;
+	Lista<Atleta> nuevosAtletas;
+	if(is.peek() != ']') {
+		while(loop) {
+			//Saco (
+			is >> c;
+			Atleta atle;
+			atle.cargar(is);
+			nuevosAtletas.agregarAtras(atle);
+			//Saco )
+			is >> c;
+			if(is.peek() != ',') {
+				loop = false;
+			}
+			else {
+				//Saco la coma
+				is >> c;
+			}
+		}
+	}
+	_atletas = nuevosAtletas;
+	//Saco ] y [
+	is >> c >> c;
+	Lista<Lista<Competencia> > nuevasCompetenciasPorDia;
+	if(is.peek() != ']') {
+		loop = true;
+		while(loop) {
+			//Saco [
+			is >> c;
+			Lista<Competencia> nuevaCompetenciasEnElDia;
+			if(is.peek() != ']') {
+				Competencia compe;
+				bool secLoop = true;
+				while(secLoop) {
+					//Saco (
+					is >> c;
+					compe.cargar(is);
+					nuevaCompetenciasEnElDia.agregarAtras(compe);
+					//Saco )
+					is >> c;
+					if(is.peek() != ',') {
+						secLoop = false;
+					}
+					else {
+						//Saco la coma
+						is >> c;
+					}
+				}
+			}
+			//Saco ]
+			is >> c;
+			nuevasCompetenciasPorDia.agregarAtras(nuevaCompetenciasEnElDia);
+			if(is.peek() != ',') {
+				loop = false;
+			}
+			else {
+				//Saco la coma
+				is >> c;
+			}
+		}
+		//Saco ]
+		is >> c;
+		_competenciasPorDia = nuevasCompetenciasPorDia;
+	}
+
 
 }
 
