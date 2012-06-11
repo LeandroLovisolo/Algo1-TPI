@@ -127,7 +127,43 @@ int JJOO::boicotPorDisciplina(const Categoria cat, const Pais p) {
 }
 
 Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
-	return Lista<Atleta>();
+/*    int h=0;
+    Lista<Atleta> rank;
+    while(h<competenciasFinalizadasConOroEnPodio().longitud()){
+       if (((((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud())==1)||(((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud()==2)||(((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud()==3)){
+            rank.concatenar(competenciasFinalizadasConOroEnPodio().iesimo(h).ranking());
+       }else{
+            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(1));
+            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(2));
+            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(3));
+       }
+       h++;
+    }
+    Lista<Atleta> atles;
+	int n = 0;
+    while (((((participantesJJOO(competencias())).iesimo(n)).nacionalidad())== p)&&(n <= ((participantesJJOO(competencias())).longitud()))&&(!(rank.pertenece((participantesJJOO(competencias())).iesimo(n))))){
+           atles.agregar((participantesJJOO(competencias()).iesimo(n)));
+           n++;
+        }
+    int i=0;
+    int j=0;
+    Lista<Atleta> atless = atles;
+    while (atles.cantidadDeApariciones (atletas().iesimo(i)) == atles.cantidadDeApariciones (atletas().iesimo(j))&&(atletas().longitud()>= j)){
+        atless;
+        j++;
+    }
+    while (((atletas().longitud()>=i+1)&&(atletas().longitud()>=j+1))){
+        if ((atles.cantidadDeApariciones (atletas().iesimo(i)) < atles.cantidadDeApariciones (atletas().iesimo(j)))){
+            atless.sacar(atletas().iesimo(i));
+            i++;
+        }else{
+            atless.sacar(atletas().iesimo(j));
+            j++;
+        }
+    }
+    return atless;*/
+    Lista<Atleta> atl;
+    return atl;
 }
 
 //Por que se crea toda la lista otra vez? porque no hay funciones publicas que permitan modificar atletas en competencias, incluso
