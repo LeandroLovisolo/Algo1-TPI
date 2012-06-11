@@ -127,9 +127,11 @@ int JJOO::boicotPorDisciplina(const Categoria cat, const Pais p) {
 }
 
 Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
-/*    int h=0;
+/*  int h=0;
     Lista<Atleta> rank;
+    //Te conviene reducir las cosas si usas funciones u operaciones muy largas, al estilo, Lista<Atleta> ranking = competenciasFinalizadasConOroEnPodio().iesimo(h).ranking()
     while(h<competenciasFinalizadasConOroEnPodio().longitud()){
+    	//El ranking puede ser de todos los atletas que se quiere, no deberías limitarte a 1, 2 o 3 de longitud
        if (((((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud())==1)||(((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud()==2)||(((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud()==3)){
             rank.concatenar(competenciasFinalizadasConOroEnPodio().iesimo(h).ranking());
        }else{
@@ -141,6 +143,8 @@ Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
     }
     Lista<Atleta> atles;
 	int n = 0;
+	//Si el while este se hiciera false porque por ejemplo, una nacionalidad no es igual, sale del loop y no se evaluan los demas,
+	//el while usalo para recorrer y usa un if adentro para ver si donde estas parada se agrega u otra cosa
     while (((((participantesJJOO(competencias())).iesimo(n)).nacionalidad())== p)&&(n <= ((participantesJJOO(competencias())).longitud()))&&(!(rank.pertenece((participantesJJOO(competencias())).iesimo(n))))){
            atles.agregar((participantesJJOO(competencias()).iesimo(n)));
            n++;
