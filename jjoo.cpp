@@ -131,47 +131,67 @@ int JJOO::boicotPorDisciplina(const Categoria cat, const Pais p) {
 }
 
 Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
-/*  int h=0;
+//Crea una lista con los atletas que ganaron medallas
+    int h=0;
     Lista<Atleta> rank;
-    //Te conviene reducir las cosas si usas funciones u operaciones muy largas, al estilo, Lista<Atleta> ranking = competenciasFinalizadasConOroEnPodio().iesimo(h).ranking()
     while(h<competenciasFinalizadasConOroEnPodio().longitud()){
-    	//El ranking puede ser de todos los atletas que se quiere, no deberías limitarte a 1, 2 o 3 de longitud
-       if (((((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud())==1)||(((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud()==2)||(((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud()==3)){
+        if (((((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud())<3)){
             rank.concatenar(competenciasFinalizadasConOroEnPodio().iesimo(h).ranking());
-       }else{
+        }else{
             rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(1));
             rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(2));
             rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(3));
-       }
-       h++;
+        }
+        h++;
     }
+
+//Este ciclo me da una lista de atletas del pais p que no ganaron ninguna medalla
     Lista<Atleta> atles;
 	int n = 0;
-	//Si el while este se hiciera false porque por ejemplo, una nacionalidad no es igual, sale del loop y no se evaluan los demas,
-	//el while usalo para recorrer y usa un if adentro para ver si donde estas parada se agrega u otra cosa
-    while (((((participantesJJOO(competencias())).iesimo(n)).nacionalidad())== p)&&(n <= ((participantesJJOO(competencias())).longitud()))&&(!(rank.pertenece((participantesJJOO(competencias())).iesimo(n))))){
-           atles.agregar((participantesJJOO(competencias()).iesimo(n)));
-           n++;
+	Atleta competidores = (atletas().iesimo(n));
+    while (n <= atletas().longitud()){
+        if ((((competidores.nacionalidad())== p))&& !(rank.pertenece(competidores))) {
+            atles.agregar(competidores);
+          }
+          n++;
         }
-    int i=0;
-    int j=0;
-    Lista<Atleta> atless = atles;
-    while (atles.cantidadDeApariciones (atletas().iesimo(i)) == atles.cantidadDeApariciones (atletas().iesimo(j))&&(atletas().longitud()>= j)){
-        atless;
-        j++;
-    }
-    while (((atletas().longitud()>=i+1)&&(atletas().longitud()>=j+1))){
-        if ((atles.cantidadDeApariciones (atletas().iesimo(i)) < atles.cantidadDeApariciones (atletas().iesimo(j)))){
-            atless.sacar(atletas().iesimo(i));
-            i++;
-        }else{
-            atless.sacar(atletas().iesimo(j));
+//Acá me fijo que los atletas del resultado sean los que participaron en mas competencias
+    int k = 0, j=0;
+    Lista<Atleta> atlesFracasados = atles;
+    Lista<Atleta> atlecomp= participantesJJOO(competencias());
+    while (((atles.longitud())> j)&&((atles.longitud())>k)){
+        if (atlecomp.cantidadDeApariciones(atles.iesimo(k))>atlecomp.cantidadDeApariciones(atles.iesimo(j))){
+            atlesFracasados.sacar(atles.iesimo(j));
             j++;
+//Me fijo si hay un atleta en el resultado que participo en iguañ cant de competencias que el que acabo de sacar, si es asi, lo saca tmb
+            int l=0;
+            Lista<Atleta> prov=atlesFracasados;
+            while(atlesFracasados.longitud()>l){
+                if(atlecomp.cantidadDeApariciones(atles.iesimo(j))==atlecomp.cantidadDeApariciones(atles.iesimo(l))){
+                    prov.sacar(atles.iesimo(l));
+                    l++;
+                    }
+                }
+            atlesFracasados=prov;
+        }
+        if (atlecomp.cantidadDeApariciones(atles.iesimo(k))<atlecomp.cantidadDeApariciones(atles.iesimo(j))){
+            atlesFracasados.sacar(atles.iesimo(k));
+            k++;
+            int m = 0;
+            Lista<Atleta> provisoria = atlesFracasados;
+            while (atlesFracasados.longitud()>m){
+                if(atlecomp.cantidadDeApariciones(atles.iesimo(j))==atlecomp.cantidadDeApariciones(atles.iesimo(m))){
+                    provisoria.sacar(atles.iesimo(m));
+                    m++;
+                    }
+                }
+            atlesFracasados=provisoria;
+            }
+        if(atlecomp.cantidadDeApariciones(atles.iesimo(k))==atlecomp.cantidadDeApariciones(atles.iesimo(j))){
+            k++;
         }
     }
-    return atless;*/
-    Lista<Atleta> atl;
-    return atl;
+  return atlesFracasados;
 }
 
 //Por que se crea toda la lista otra vez? porque no hay funciones publicas que permitan modificar atletas en competencias, incluso
