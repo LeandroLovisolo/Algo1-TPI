@@ -355,11 +355,11 @@ bool Competencia::mismoDoping(const Competencia& c) const {
 			}
 			i++;
 		}
-		return igual;
 	}
 	else {
-		return false;
+		igual = false;
 	}
+	return igual;
 }
 bool Competencia::mismosParticipantes(const Competencia& c) const {
 	int i = 0;
@@ -371,11 +371,11 @@ bool Competencia::mismosParticipantes(const Competencia& c) const {
 			}
 			i++;
 		}
-		return igual;
 	}
 	else {
-		return false;
+		igual = false;
 	}
+	return igual;
 }
 
 bool Competencia::mismaCategoria(const Competencia& c) const {

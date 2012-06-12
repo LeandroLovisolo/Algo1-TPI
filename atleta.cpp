@@ -111,11 +111,11 @@ bool Atleta::operator==(const Atleta& a) const {
     		}
     		i++;
     	}
-    	return igual;
     }
     else {
-    	return false;
+    	igual = false;
     }
+    return igual;
 }
 
 void Atleta::mostrar(std::ostream& os) const {
