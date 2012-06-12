@@ -102,11 +102,11 @@ void Atleta::entrenarNuevoDeporte(const Deporte deporte, const int capacidad) {
 bool Atleta::operator==(const Atleta& a) const {
     bool igual = this->_nombre == a.nombre() && this->_sexo == a.sexo() && this->_anioNacimiento == a.anioNacimiento() &&
     		this->_nacionalidad == a.nacionalidad() && this->_ciaNumber == a.ciaNumber();
+
     int i=0;
-    if(a.deportes().longitud() == this->deportes().longitud()) {
+    if(a.deportes() == this->deportes()) {
     	while(i<a.deportes().longitud()) {
-    		if(!this->deportes().pertenece((a.deportes().iesimo(i))) || !(this->capacidad(a.deportes().iesimo(i)) ==
-    				a.capacidad(a.deportes().iesimo(i)))) {
+    		if(!(this->capacidad(a.deportes().iesimo(i)) == a.capacidad(a.deportes().iesimo(i)))) {
     			igual = false;
     		}
     		i++;
