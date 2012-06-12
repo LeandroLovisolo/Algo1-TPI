@@ -3,7 +3,11 @@
 #include "lista.h"
 #include "jjoo.h"
 
-JJOO::JJOO () {}
+JJOO::JJOO () {
+	_jornadaActual = 1;
+	Lista<Competencia> listaCompetencias;
+	_competenciasPorDia.agregarAtras(listaCompetencias);
+}
 JJOO::JJOO (const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia){
     _anio = anio;
     _atletas = atletas;
