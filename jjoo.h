@@ -42,6 +42,8 @@ class JJOO{
         int _jornadaActual;
         Lista<Lista<Competencia> > _competenciasPorDia;         // En la i-�sima posici�n de la lista, las competencias del d�a i+1.
         Lista<Atleta> participantesJJOO(const Lista<Competencia> competencias) const;
+        bool mismosAtletas(const JJOO& c) const;
+        bool mismoCronograma(const JJOO& j) const;
         enum {ENCABEZADO_ARCHIVO = 'J'};
 };
 std::ostream & operator<<(std::ostream & os,const JJOO & j);

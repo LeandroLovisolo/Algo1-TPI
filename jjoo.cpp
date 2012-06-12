@@ -273,7 +273,7 @@ void JJOO::transcurrirDia() {
 }
 
 bool JJOO::operator==(const JJOO& j) const {
-	return true;
+	return _anio == j.anio() && _jornadaActual == j.jornadaActual() && mismosAtletas(j) && mismoCronograma(j);
 }
 
 void JJOO::mostrar(std::ostream& os) const {
@@ -412,4 +412,46 @@ Lista<Atleta> JJOO::participantesJJOO(const Lista<Competencia> competencias) con
     	i++;
 	}
 	return participantes;
+}
+
+bool JJOO::mismosAtletas(const JJOO& j) const {
+	int i = 0;
+	bool igual = true;
+	if(_atletas.longitud() == j.atletas().longitud()) {
+		while(i<_atletas.longitud()) {
+			if(!j.atletas().pertenece(_atletas.iesimo(i))) {
+				igual = false;
+			}
+			i++;
+		}
+	}
+	else {
+		igual = false;
+	}
+	return igual;
+}
+
+bool JJOO::mismoCronograma(const JJOO& j) const {
+	bool igual = true;
+	if(cantDias() == j.cantDias()) {
+		int i=1;
+		while(i<cantDias()) {
+			if(cronograma(i) == j.cronograma(i)) {
+				int y = 0;
+				while(y<cronograma(i).longitud()) {
+					if(!j.cronograma(i).pertenece(this->cronograma(i).iesimo(y))) {
+						igual = false;
+					}
+				}
+			}
+			else {
+				igual = false;
+			}
+			i++;
+		}
+	}
+	else {
+		igual = false;
+	}
+	return igual;
 }
