@@ -44,6 +44,12 @@ class JJOO{
         Lista<Atleta> participantesJJOO(const Lista<Competencia> competencias) const;
         bool mismosAtletas(const JJOO& c) const;
         bool mismoCronograma(const JJOO& j) const;
+        Lista<int> rank(Competencia c);
+        int maxPos(Lista<pair<int,int> > a, int desde, int hasta);
+        Lista<pair<int, bool> > doping(const Competencia c);
+        Lista<Lista<Competencia> > m(Lista<Lista<Competencia> > h, Lista<Competencia> comp, int w);
+        Lista<pair<int,int> > capacidades(const Deporte d , Lista<Atleta> atle);
+        Lista<pair<int,int> > swap(Lista<pair<int,int> > lista, int a, int b);
         enum {ENCABEZADO_ARCHIVO = 'J'};
 };
 std::ostream & operator<<(std::ostream & os,const JJOO & j);

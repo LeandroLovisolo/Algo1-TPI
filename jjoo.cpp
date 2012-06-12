@@ -268,9 +268,112 @@ bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 Lista<Pais> JJOO::sequiaOlimpica() const {
 	return Lista<Pais>();
 }
+
 void JJOO::transcurrirDia() {
-	return;
+    int i = 0;
+    Lista<Competencia> f;
+    while (i < cronograma(jornadaActual()).longitud()){
+        if (!((cronograma(jornadaActual()).iesimo(i)).finalizada())) {
+            Lista<Atleta> participan= cronograma(jornadaActual()).iesimo(i).participantes();
+            Deporte dep= (cronograma(jornadaActual()).iesimo(i).categoria()).first;
+            Sexo sex= (cronograma(jornadaActual()).iesimo(i).categoria()).second;
+            Competencia nuevaC(dep, sex, participan);
+            nuevaC.finalizar(rank(cronograma(jornadaActual()).iesimo(i)),doping(cronograma(jornadaActual()).iesimo(i)));
+            f.agregarAtras(nuevaC);
+        }
+        else {
+            f.agregarAtras(cronograma(jornadaActual()).iesimo(i));
+        }
+        i++;
+    }
+    _competenciasPorDia = m(_competenciasPorDia, f, jornadaActual());
+    _jornadaActual=jornadaActual()+1;
+
 }
+
+//paso las competencias por dia, el cronograma para reemplazar y la jornada actual
+Lista<Lista<Competencia> > JJOO::m(Lista<Lista<Competencia> > h, Lista<Competencia> comp, int w){
+    int i=0;
+    Lista<Lista<Competencia> > f;
+    while (i < h.longitud()) {
+        if (i!=(w-1)) {
+            f.agregarAtras(h.iesimo(i));
+        }
+        else {
+            f.agregarAtras(comp);
+        }
+        i++;
+    }
+    return f;
+}
+
+Lista<pair<int,int> > JJOO::capacidades(const Deporte d , Lista<Atleta> atle) {
+    int i = 0;
+    Lista<pair<int,int> > cap;
+    while (i < atle.longitud()) {
+        pair<int, int> par= make_pair (atle.iesimo(i).ciaNumber(),atle.iesimo(i).capacidad(d));
+        cap.agregarAtras(par);
+        i++;
+    }
+    return cap;
+}
+
+Lista<pair<int,int> > JJOO::swap(Lista<pair<int,int> > lista, int a, int b){
+    pair<int, int> c;
+    Lista<pair<int,int> > swaped;
+    int i = 0;
+    while (i < lista.longitud()) {
+        if ( (i==a) ) {
+            swaped.agregarAtras(lista.iesimo(b));
+        }
+        else {
+            if ( (i==b) ) {
+                swaped.agregarAtras(lista.iesimo(a));
+            }
+            else {
+                swaped.agregarAtras(lista.iesimo(i));
+            }
+        }
+    i++;
+    }
+    return swaped;
+}
+
+Lista<int> JJOO::rank(Competencia c){
+    int m, actual = c.participantes().longitud()-1;
+    Lista<int> x;
+    Lista<pair<int,int> > cambiada = capacidades(c.categoria().first, c.participantes());
+    while (actual >= 0) {
+        m= maxPos(cambiada,0,actual);
+        cambiada= swap(cambiada, actual, m);
+        x.agregarAtras(cambiada.iesimo(actual).first);
+        actual--;
+    }
+    return x;
+}
+
+int JJOO::maxPos(Lista<pair<int,int> > a, int desde, int hasta) {
+    int mp = desde;
+    int i = desde;
+    while (i < hasta) {
+        i++;
+        if (a.iesimo(i).second > a.iesimo(mp).second) mp = i;
+    }
+    return mp;
+}
+
+
+Lista<pair<int,bool> > JJOO::doping(const Competencia c){
+    Lista<pair<int,bool> > x;
+    pair<int,bool> y;
+        if ((c.participantes()).longitud() >= 1 ) {
+            y = make_pair (((c.participantes()).cabeza()).ciaNumber(), false);
+            x.agregar(y);
+        }
+
+    return x;
+}
+
 
 bool JJOO::operator==(const JJOO& j) const {
 	return _anio == j.anio() && _jornadaActual == j.jornadaActual() && mismosAtletas(j) && mismoCronograma(j);

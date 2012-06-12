@@ -40,6 +40,7 @@ class Competencia{
         Atleta atletaConCia(const int ciaNumber) const;
         bool mismoDoping(const Competencia& c) const;
         bool mismosParticipantes(const Competencia& c) const;
+        bool mismaCategoria(const Competencia& c) const;
         enum {ENCABEZADO_ARCHIVO = 'C'};
 };
 std::ostream & operator<<(std::ostream & os,const Competencia & c);
