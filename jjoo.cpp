@@ -138,43 +138,45 @@ Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
         if (competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().longitud()<3){
             rank.concatenar(competenciasFinalizadasConOroEnPodio().iesimo(h).ranking());
         }else{
+        	// 0, 1 y 2 en vez de 1,2,3
+            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(0));
             rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(1));
             rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(2));
-            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(3));
         }
         h++;
     }
-
 //Este ciclo me da una lista de atletas del pais p que no ganaron ninguna medalla
     Lista<Atleta> atles;
 	int n = 0;
-	Atleta competidores = (atletas().iesimo(n));
     while (n < atletas().longitud()){
-        if ((competidores.nacionalidad()== p)&& !(rank.pertenece(competidores))) {
-            atles.agregar(competidores);
-          }
-          n++;
+    	Atleta competidor = atletas().iesimo(n);
+        if ((competidor.nacionalidad()== p) && !rank.pertenece(competidor)) {
+        	atles.agregar(competidor);
         }
+        n++;
+    }
 //Divido en dos casos, si la lista es vacia o si tiene al menos un elemento
     Lista<Atleta> atlesFracasados;
     if (atles.longitud()==0){
         atlesFracasados=atles;
-    }else{
+    }
+    else{
 //Acá me fijo cual es el atleta que participó en mas competencias
         int k = 0, j=0;
         Atleta maxAp = atles.iesimo(k);
         Lista<Atleta> atlecomp= participantesJJOO(competencias());
         while (j < atles.longitud()){
             if (atlecomp.cantidadDeApariciones(maxAp)>atlecomp.cantidadDeApariciones(atles.iesimo(j))){
-                maxAp = atles.iesimo(j);
+                	maxAp = atles.iesimo(j);
                 }
             j++;
-            }
+        }
 //Acá creo la lista con todos los atletas que aparecen tantas veces como maxAp
         atlesFracasados.agregar(maxAp);
         int m=0;
         while (m < atles.longitud()){
-            if (atlecomp.cantidadDeApariciones(maxAp)==atlecomp.cantidadDeApariciones(atles.iesimo(m))){
+        	//No estabas viendo si el que tenia la misma cantidad de apariciones era el mismo
+            if (atlecomp.cantidadDeApariciones(maxAp)==atlecomp.cantidadDeApariciones(atles.iesimo(m)) && !(atles.iesimo(m) == maxAp)){
                 atlesFracasados.agregar(atles.iesimo(m));
                 }
             m++;
