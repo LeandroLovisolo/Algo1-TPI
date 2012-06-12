@@ -88,9 +88,12 @@ void Competencia::sancionarTramposos() {
 }
 
 bool Competencia::operator==(const Competencia& c) const {
-	bool vale = true;
-	if((_finalizada && c.finalizada()) || (!_finalizada && !c.finalizada())) {
-		vale = mismosParticipantes(c) && mismoDoping(c) && ranking() == c.ranking();
+	bool vale;
+	if(_finalizada && c.finalizada()) {
+		vale = mismosParticipantes(c) && mismaCategoria(c);
+	}
+	else if(!_finalizada && !c.finalizada()) {
+		vale = mismosParticipantes(c) && mismoDoping(c) && ranking() == c.ranking() && mismaCategoria(c);
 	}
 	else {
 		vale = false;
@@ -375,3 +378,6 @@ bool Competencia::mismosParticipantes(const Competencia& c) const {
 	}
 }
 
+bool Competencia::mismaCategoria(const Competencia& c) const {
+	return (categoria().first == c.categoria().first) && (categoria().second == c.categoria().second);
+}
