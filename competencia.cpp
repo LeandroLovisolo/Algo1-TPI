@@ -88,9 +88,9 @@ void Competencia::sancionarTramposos() {
 }
 
 bool Competencia::operator==(const Competencia& c) const {
-	bool vale;
+	bool vale = true;
 	if((_finalizada && c.finalizada()) || (!_finalizada && !c.finalizada())) {
-		vale = mismosParticipantes(c) && mismoDoping(c);
+		vale = mismosParticipantes(c) && mismoDoping(c) && ranking() == c.ranking();
 	}
 	else {
 		vale = false;
