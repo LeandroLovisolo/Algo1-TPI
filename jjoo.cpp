@@ -135,7 +135,7 @@ Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
     int h=0;
     Lista<Atleta> rank;
     while(h<competenciasFinalizadasConOroEnPodio().longitud()){
-        if (((((competenciasFinalizadasConOroEnPodio().iesimo (h)).ranking()).longitud())<3)){
+        if (competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().longitud()<3){
             rank.concatenar(competenciasFinalizadasConOroEnPodio().iesimo(h).ranking());
         }else{
             rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(1));
@@ -149,46 +149,35 @@ Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
     Lista<Atleta> atles;
 	int n = 0;
 	Atleta competidores = (atletas().iesimo(n));
-    while (n <= atletas().longitud()){
-        if ((((competidores.nacionalidad())== p))&& !(rank.pertenece(competidores))) {
+    while (n < atletas().longitud()){
+        if ((competidores.nacionalidad()== p)&& !(rank.pertenece(competidores))) {
             atles.agregar(competidores);
           }
           n++;
         }
-//Acá me fijo que los atletas del resultado sean los que participaron en mas competencias
-    int k = 0, j=0;
-    Lista<Atleta> atlesFracasados = atles;
-    Lista<Atleta> atlecomp= participantesJJOO(competencias());
-    while (((atles.longitud())> j)&&((atles.longitud())>k)){
-        if (atlecomp.cantidadDeApariciones(atles.iesimo(k))>atlecomp.cantidadDeApariciones(atles.iesimo(j))){
-            atlesFracasados.sacar(atles.iesimo(j));
+//Divido en dos casos, si la lista es vacia o si tiene al menos un elemento
+    Lista<Atleta> atlesFracasados;
+    if (atles.longitud()==0){
+        atlesFracasados=atles;
+    }else{
+//Acá me fijo cual es el atleta que participó en mas competencias
+        int k = 0, j=0;
+        Atleta maxAp = atles.iesimo(k);
+        Lista<Atleta> atlecomp= participantesJJOO(competencias());
+        while (j < atles.longitud()){
+            if (atlecomp.cantidadDeApariciones(maxAp)>atlecomp.cantidadDeApariciones(atles.iesimo(j))){
+                maxAp = atles.iesimo(j);
+                }
             j++;
-//Me fijo si hay un atleta en el resultado que participo en iguañ cant de competencias que el que acabo de sacar, si es asi, lo saca tmb
-            int l=0;
-            Lista<Atleta> prov=atlesFracasados;
-            while(atlesFracasados.longitud()>l){
-                if(atlecomp.cantidadDeApariciones(atles.iesimo(j))==atlecomp.cantidadDeApariciones(atles.iesimo(l))){
-                    prov.sacar(atles.iesimo(l));
-                    l++;
-                    }
-                }
-            atlesFracasados=prov;
-        }
-        if (atlecomp.cantidadDeApariciones(atles.iesimo(k))<atlecomp.cantidadDeApariciones(atles.iesimo(j))){
-            atlesFracasados.sacar(atles.iesimo(k));
-            k++;
-            int m = 0;
-            Lista<Atleta> provisoria = atlesFracasados;
-            while (atlesFracasados.longitud()>m){
-                if(atlecomp.cantidadDeApariciones(atles.iesimo(j))==atlecomp.cantidadDeApariciones(atles.iesimo(m))){
-                    provisoria.sacar(atles.iesimo(m));
-                    m++;
-                    }
-                }
-            atlesFracasados=provisoria;
             }
-        if(atlecomp.cantidadDeApariciones(atles.iesimo(k))==atlecomp.cantidadDeApariciones(atles.iesimo(j))){
-            k++;
+//Acá creo la lista con todos los atletas que aparecen tantas veces como maxAp
+        atlesFracasados.agregar(maxAp);
+        int m=0;
+        while (m < atles.longitud()){
+            if (atlecomp.cantidadDeApariciones(maxAp)==atlecomp.cantidadDeApariciones(atles.iesimo(m))){
+                atlesFracasados.agregar(atles.iesimo(m));
+                }
+            m++;
         }
     }
   return atlesFracasados;
