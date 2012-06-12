@@ -749,7 +749,7 @@ void MenuJJOO()
         		std::stringstream s;
         		s << name << i;
         		name = s.str();
-        		Atleta atle(name, Masculino, 1991 ,"Arg", i);
+        		Atleta atle(name, Masculino, 1991-i ,"Arg", i);
         		j=0;
         		while(j<10) {
         			string dep = "Deporte ";
@@ -765,18 +765,40 @@ void MenuJJOO()
         	cout << "Participantes generados" << endl;
         	i=0,j=0;
         	Lista<Competencia> competencias;
+        	while(i<5) {
+    			string dep = "Deporte-";
+        		std::stringstream s;
+        		s << dep << i;
+        		dep = s.str();
+        		Competencia compe(dep, Masculino, participantes);
+        		Lista<int> ranking;
+        		ranking.agregarAtras(participantes.iesimo(i+1).ciaNumber());
+        		ranking.agregarAtras(participantes.iesimo(i+2).ciaNumber());
+        		ranking.agregarAtras(participantes.iesimo(i+3).ciaNumber());
+        		Lista<pair<int, bool> > doping;
+        		doping.agregarAtras(make_pair(participantes.iesimo(i+1).ciaNumber(), true));
+        		doping.agregarAtras(make_pair(participantes.iesimo(i+1).ciaNumber(), false));
+        		doping.agregarAtras(make_pair(participantes.iesimo(i+1).ciaNumber(), false));
+        		compe.finalizar(ranking, doping);
+        		competencias.agregarAtras(compe);
+        		i++;
+        	}
+
+        	Lista<Lista<Competencia> > competenciasPorDia;
+        	competenciasPorDia.agregarAtras(competencias);
+        	i = 5;
+        	Lista<Competencia> otroDia;
         	while(i<10) {
     			string dep = "Deporte-";
         		std::stringstream s;
         		s << dep << i;
         		dep = s.str();
         		Competencia compe(dep, Masculino, participantes);
-        		competencias.agregarAtras(compe);
+        		otroDia.agregarAtras(compe);
         		i++;
         	}
+        	competenciasPorDia.agregarAtras(otroDia);
         	cout << "Competencias generadas" << endl;
-        	Lista<Lista<Competencia> > competenciasPorDia;
-        	competenciasPorDia.agregarAtras(competencias);
         	participantes.agregarAtras(Atleta("Descolocado", Masculino, 1990 ,"Uganda", 11));
         	jjoo = JJOO(1991, participantes, competenciasPorDia);
         	jjooCreado = true;
