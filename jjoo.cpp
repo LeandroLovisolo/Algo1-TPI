@@ -259,9 +259,31 @@ void JJOO::liuSong(const Atleta& a, const Pais p) {
 	}
 	_competenciasPorDia = nuevaCompetenciasPorDia;
 }
+
 Atleta JJOO::stevenBradbury() const {
-	return Atleta();
+    int i = 0;
+    Atleta menorCapacidad;
+    Lista<pair<Atleta,Categoria> > ganadoresPorCategoria;
+    while (i < competenciasFinalizadasConOroEnPodio().longitud()){
+        Atleta ganador = competenciasFinalizadasConOroEnPodio().iesimo(i).ranking().iesimo(0);
+        Categoria cat = competenciasFinalizadasConOroEnPodio().iesimo(i).categoria();
+        pair<Atleta,Categoria> par = make_pair (ganador,cat);
+        ganadoresPorCategoria.agregarAtras(par);
+        i++;
+    }
+    i = 0;
+    while (i < ganadoresPorCategoria.longitud()-1) {
+        if (ganadoresPorCategoria.iesimo(i).first.capacidad(ganadoresPorCategoria.iesimo(i).second.first) <= ganadoresPorCategoria.iesimo(i+1).first.capacidad(ganadoresPorCategoria.iesimo(i+1).second.first) ) {
+            menorCapacidad = ganadoresPorCategoria.iesimo(i).first;
+        }
+        else {
+            menorCapacidad = ganadoresPorCategoria.iesimo(i+1).first;
+        }
+        i++;
+    }
+	return menorCapacidad;
 }
+
 bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 	return true;
 }
