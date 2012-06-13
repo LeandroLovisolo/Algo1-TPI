@@ -262,7 +262,6 @@ void JJOO::liuSong(const Atleta& a, const Pais p) {
 
 Atleta JJOO::stevenBradbury() const {
     int i = 0;
-    Atleta menorCapacidad;
     Lista<pair<Atleta,Categoria> > ganadoresPorCategoria;
     while (i < competenciasFinalizadasConOroEnPodio().longitud()){
         Atleta ganador = competenciasFinalizadasConOroEnPodio().iesimo(i).ranking().iesimo(0);
@@ -272,16 +271,14 @@ Atleta JJOO::stevenBradbury() const {
         i++;
     }
     i = 0;
-    while (i < ganadoresPorCategoria.longitud()-1) {
-        if (ganadoresPorCategoria.iesimo(i).first.capacidad(ganadoresPorCategoria.iesimo(i).second.first) <= ganadoresPorCategoria.iesimo(i+1).first.capacidad(ganadoresPorCategoria.iesimo(i+1).second.first) ) {
-            menorCapacidad = ganadoresPorCategoria.iesimo(i).first;
-        }
-        else {
-            menorCapacidad = ganadoresPorCategoria.iesimo(i+1).first;
+    pair<Atleta,int> menorCapacidad = make_pair (ganadoresPorCategoria.iesimo(0).first, 0);
+    while (i < ganadoresPorCategoria.longitud()) {
+        if (menorCapacidad.first.capacidad(ganadoresPorCategoria.iesimo(menorCapacidad.second).second.first) > ganadoresPorCategoria.iesimo(i).first.capacidad(ganadoresPorCategoria.iesimo(i).second.first) ) {
+            menorCapacidad = make_pair (ganadoresPorCategoria.iesimo(i).first, i);
         }
         i++;
     }
-	return menorCapacidad;
+	return menorCapacidad.first;
 }
 
 bool JJOO::uyOrdenadoAsiHayUnPatron() const {
