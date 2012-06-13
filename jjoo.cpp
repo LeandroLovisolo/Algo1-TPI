@@ -271,27 +271,35 @@ Lista<Pais> JJOO::sequiaOlimpica() const {
 
 void JJOO::transcurrirDia() {
     int i = 0;
+    //f va a ser el cronograma cambiado, con las competencias que finalizaron mas las que voy a finalizar
     Lista<Competencia> f;
     while (i < cronograma(jornadaActual()).longitud()){
+        //me fijo que competencias ya finalizaron en el cronograma
         if (!((cronograma(jornadaActual()).iesimo(i)).finalizada())) {
+            //guardos los datos de la competencia que tengo que finalizar
             Lista<Atleta> participan= cronograma(jornadaActual()).iesimo(i).participantes();
             Deporte dep= (cronograma(jornadaActual()).iesimo(i).categoria()).first;
             Sexo sex= (cronograma(jornadaActual()).iesimo(i).categoria()).second;
+            //creo una competencia con los datos de la anterior asi la puedo finalizar
             Competencia nuevaC(dep, sex, participan);
+            //la finalizo con el ranking y doping creados en los aux
             nuevaC.finalizar(rank(cronograma(jornadaActual()).iesimo(i)),doping(cronograma(jornadaActual()).iesimo(i)));
+            //la agrego al cronograma nuevo
             f.agregarAtras(nuevaC);
         }
         else {
+            //si la competencia ya estaba finalizada, la agrego directamente al cronograma nuevo
             f.agregarAtras(cronograma(jornadaActual()).iesimo(i));
         }
         i++;
     }
+    //cambio la lista vieja de cronogramas por la nueva al JJOO
     _competenciasPorDia = m(_competenciasPorDia, f, jornadaActual());
     _jornadaActual=jornadaActual()+1;
 
 }
 
-//paso las competencias por dia, el cronograma para reemplazar y la jornada actual
+//voy a hacer una lista de los cronogramas, reemplazando el de la jornada actual por el que cree
 Lista<Lista<Competencia> > JJOO::m(Lista<Lista<Competencia> > h, Lista<Competencia> comp, int w){
     int i=0;
     Lista<Lista<Competencia> > f;
@@ -307,6 +315,7 @@ Lista<Lista<Competencia> > JJOO::m(Lista<Lista<Competencia> > h, Lista<Competenc
     return f;
 }
 
+//devuelve una lista de tuplas con el cia num y capacidad para el deporte asignado
 Lista<pair<int,int> > JJOO::capacidades(const Deporte d , Lista<Atleta> atle) {
     int i = 0;
     Lista<pair<int,int> > cap;
@@ -317,7 +326,7 @@ Lista<pair<int,int> > JJOO::capacidades(const Deporte d , Lista<Atleta> atle) {
     }
     return cap;
 }
-
+//cambio 2 elementos de lugar
 Lista<pair<int,int> > JJOO::swap(Lista<pair<int,int> > lista, int a, int b){
     pair<int, int> c;
     Lista<pair<int,int> > swaped;
@@ -339,6 +348,7 @@ Lista<pair<int,int> > JJOO::swap(Lista<pair<int,int> > lista, int a, int b){
     return swaped;
 }
 
+//creo el ranking ordenado de mayor capacidad a menor
 Lista<int> JJOO::rank(Competencia c){
     int m, actual = c.participantes().longitud()-1;
     Lista<int> x;
@@ -352,6 +362,7 @@ Lista<int> JJOO::rank(Competencia c){
     return x;
 }
 
+//busca en que posicion esta el elemento con mayor capacidad
 int JJOO::maxPos(Lista<pair<int,int> > a, int desde, int hasta) {
     int mp = desde;
     int i = desde;
@@ -362,7 +373,7 @@ int JJOO::maxPos(Lista<pair<int,int> > a, int desde, int hasta) {
     return mp;
 }
 
-
+//creo la lista de antidoping de longitud 1, y false asi mismos(ranking(x),participantes(x)) se cumple
 Lista<pair<int,bool> > JJOO::doping(const Competencia c){
     Lista<pair<int,bool> > x;
     pair<int,bool> y;
