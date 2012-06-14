@@ -314,7 +314,9 @@ void JJOO::transcurrirDia() {
     }
     //cambio la lista vieja de cronogramas por la nueva al JJOO
     _competenciasPorDia = m(_competenciasPorDia, f, jornadaActual());
-    _jornadaActual=jornadaActual()+1;
+    if(_jornadaActual != cantDias()) {
+    	_jornadaActual += 1;
+    }
 
 }
 
