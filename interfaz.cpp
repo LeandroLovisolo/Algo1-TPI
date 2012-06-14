@@ -605,6 +605,7 @@ void MenuJJOO()
             string pais;
             cout << "Indique el pais del cual desea conocer sus atletas mas fracasados: ";
             cin >> pais;
+            cout << "Pais: " << pais;
             MostrarAtletas(jjoo.losMasFracasados(pais), "Los mas fracasados: ");
             Pausar();
             LimpiarPantalla();
@@ -752,7 +753,7 @@ void MenuJJOO()
         		Atleta atle(name, Masculino, 1991-i ,"Arg", i);
         		j=0;
         		while(j<10) {
-        			string dep = "Deporte ";
+        			string dep = "Deporte-";
             		std::stringstream s;
             		s << dep << j;
             		dep = s.str();
@@ -801,6 +802,7 @@ void MenuJJOO()
         	cout << "Competencias generadas" << endl;
         	participantes.agregarAtras(Atleta("Descolocado", Masculino, 1990 ,"Uganda", 11));
         	jjoo = JJOO(1991, participantes, competenciasPorDia);
+        	jjoo.transcurrirDia();
         	jjooCreado = true;
         	cout << "Se ha generado el JJOO! " << endl;
             Pausar();
