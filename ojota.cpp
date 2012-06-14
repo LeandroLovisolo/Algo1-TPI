@@ -10,7 +10,7 @@ Atleta atletaProdigio(const JJOO & j) {
 	while(i<cantidadCompetenciasConOro) {
 		int anioAtleta = j.competenciasFinalizadasConOroEnPodio().iesimo(i).ranking().iesimo(0).anioNacimiento();
 		int anioAtletaEdadMinima = atletaMinimaEdad.anioNacimiento();
-		if(anioAtleta <= anioAtletaEdadMinima) {
+		if(anioAtleta >= anioAtletaEdadMinima) {
 			atletaMinimaEdad = j.competenciasFinalizadasConOroEnPodio().iesimo(i).ranking().iesimo(0);
 		}
 		i++;
