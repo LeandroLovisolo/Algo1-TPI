@@ -334,6 +334,34 @@ Lista<Lista<Competencia> > JJOO::m(Lista<Lista<Competencia> > h, Lista<Competenc
     return f;
 }
 
+//Propuesta de funcion para crear ranking
+Lista<int> JJOO::crearRanking(const Competencia& compe) {
+	//Hago una copia de los participantes
+	Lista<Atleta> tempParticipantes = compe.participantes();
+	Lista<int> rankingParticipantes;
+	if(tempParticipantes.longitud() > 0) {
+		//Voy a recorrer tempParticipantes sacando cada vez el maximo, parando cuando no haya mas para sacar
+		while(tempParticipantes.longitud() > 0) {
+			//Agarro el primer elemento, como ya tiene uno
+			Atleta atleConMasCapacidad = tempParticipantes.iesimo(0);
+			int i=1;
+			//Comparo con el resto
+			while(i<tempParticipantes.longitud()) {
+				//Si la capacidad del deporte en esa competencia es mayor al que teniamos, lo cambiamos
+				if(tempParticipantes.iesimo(i).capacidad(compe.categoria().first) >= atleConMasCapacidad
+						.capacidad(compe.categoria().first)) {
+					atleConMasCapacidad = tempParticipantes.iesimo(i);
+				}
+				i++;
+			}
+			//Finalmente lo agregamos al ranking y lo sacamos de la lista
+			rankingParticipantes.agregarAtras(atleConMasCapacidad.ciaNumber());
+			tempParticipantes.sacar(atleConMasCapacidad);
+		}
+	}
+	return rankingParticipantes;
+}
+
 //devuelve una lista de tuplas con el cia num y capacidad para el deporte asignado
 Lista<pair<int,int> > JJOO::capacidades(const Deporte d , Lista<Atleta> atle) {
     int i = 0;
