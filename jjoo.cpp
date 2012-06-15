@@ -284,8 +284,87 @@ Atleta JJOO::stevenBradbury() const {
 bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 	return true;
 }
+
 Lista<Pais> JJOO::sequiaOlimpica() const {
-	return Lista<Pais>();
+    int i=0;
+    Lista<Pais> paises;
+    while (i < atletas().longitud()){
+        if (!paises.pertenece(atletas().iesimo(i).nacionalidad())) {
+            paises.agregar(atletas().iesimo(i).nacionalidad());
+        }
+        i++;
+    }
+    i=0;
+    Lista<pair<Pais,int> > paisDiasSinGanar;
+    while (i < paises.longitud()) {
+        int y = 1;
+        Lista<int> jornadas;
+        jornadas.agregar(0);
+        while (y < jornadaActual()){
+            if (ganoMedallaEseDia(paises.iesimo(i), y)) {
+                jornadas.agregarAtras(y);
+            }
+            y++;
+        }
+        jornadas.agregarAtras(jornadaActual());
+        pair<Pais,int> par = make_pair (paises.iesimo(i), maxDiasSinGanar(jornadas));
+        paisDiasSinGanar.agregarAtras(par);
+        i++;
+    }
+    i=0;
+    int m= paisDiasSinGanar.iesimo(0).second;
+    while (i< paisDiasSinGanar.longitud()-1){
+        if ( m < paisDiasSinGanar.iesimo(i+1).second) {
+            m=paisDiasSinGanar.iesimo(i+1).second;
+        }
+        i++;
+    }
+    i=0;
+    Lista<Pais> secos;
+    while (i < paisDiasSinGanar.longitud()) {
+        if (paisDiasSinGanar.iesimo(i).second==m) {
+            secos.agregarAtras(paisDiasSinGanar.iesimo(i).first);
+        }
+        i++;
+    }
+    return secos;
+}
+
+
+int JJOO::maxDiasSinGanar(Lista<int> lista) const{
+    int i = 1;
+    Lista<int> list;
+    while (i<lista.longitud()){
+        list.agregarAtras(lista.iesimo(i)-lista.iesimo(i-1));
+        i++;
+    }
+    i=0;
+    int maximo= list.iesimo(0);
+    while (i<(list.longitud()-1)){
+        if (maximo<list.iesimo(i+1)) {
+            maximo=list.iesimo(i+1);
+        }
+        i++;
+    }
+    return maximo;
+}
+
+bool JJOO::ganoMedallaEseDia(Pais p, int x) const{
+    int i = 0;
+    bool igual=false;
+    while (i< cronograma(x).longitud()){
+        if (cronograma(x).iesimo(i).finalizada() &&
+        (((cronograma(x).iesimo(i).ranking().longitud() >= 1) && (cronograma(x).iesimo(i).ranking().iesimo(0).nacionalidad()==p)) ||
+        ((cronograma(x).iesimo(i).ranking().longitud() >= 2) && (cronograma(x).iesimo(i).ranking().iesimo(1).nacionalidad()==p)) ||
+        ((cronograma(x).iesimo(i).ranking().longitud() >= 3) && (cronograma(x).iesimo(i).ranking().iesimo(2).nacionalidad()==p)))) {
+            igual=true;
+            i= cronograma(x).longitud();
+        }
+        else {
+            i++;
+        }
+    }
+    return igual;
 }
 
 void JJOO::transcurrirDia() {

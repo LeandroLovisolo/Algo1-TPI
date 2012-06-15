@@ -51,6 +51,8 @@ class JJOO{
         Lista<pair<int,int> > capacidades(const Deporte d , Lista<Atleta> atle);
         Lista<pair<int,int> > swap(Lista<pair<int,int> > lista, int a, int b);
         Lista<int> crearRanking(const Competencia& c);
+        bool ganoMedallaEseDia(Pais p, int x) const;
+        int maxDiasSinGanar(Lista<int> lista) const;
         enum {ENCABEZADO_ARCHIVO = 'J'};
 };
 std::ostream & operator<<(std::ostream & os,const JJOO & j);
