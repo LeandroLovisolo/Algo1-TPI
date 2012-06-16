@@ -65,16 +65,15 @@ void Competencia::linfordChristie(const int ciaNum) {
 }
 
 bool Competencia::gananLosMasCapaces() const {
-	int i=0;
-    bool masCapaces = true;
-    while(i<_ranking.longitud()) {
-        if((i+1) < _ranking.longitud() && !(atletaConCia(_ranking.iesimo(i)).capacidad(categoria().first) >
-        	atletaConCia(_ranking.iesimo(i+1)).capacidad(categoria().first))) {
-        	masCapaces = false;
-        }
+    bool ret = true;
+	int i = 0;
+    while(_ranking.longitud() >= 2 && i < _ranking.longitud() - 1) {
+    	int capacidadPuestoActual    = atletaConCia(_ranking.iesimo(i)).capacidad(_categoria.first);
+    	int capacidadPuestoSiguiente = atletaConCia(_ranking.iesimo(i + 1)).capacidad(_categoria.first);
+    	ret = ret && (capacidadPuestoActual >= capacidadPuestoSiguiente);
         i++;
     }
-    return masCapaces;
+    return ret;
 }
 
 void Competencia::sancionarTramposos() {
