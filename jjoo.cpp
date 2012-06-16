@@ -24,7 +24,7 @@ Lista<Atleta> JJOO::atletas() const {
 }
 
 int JJOO::cantDias() const {
-    return _competenciasPorDia.longitud ();
+    return _competenciasPorDia.longitud();
 }
 
 int JJOO::jornadaActual() const {
