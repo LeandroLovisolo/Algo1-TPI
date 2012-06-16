@@ -123,7 +123,6 @@ Lista<pair<Pais,Lista<int> > > JJOO::medallero() const {
     }
 
     Lista<pair<Pais,Lista<int> > > paisesYMedallas;
-    Lista<int> medallas;
     int n=0;
     while (n<paisesGanadores.longitud()){
         Lista<int> medallas;
