@@ -63,40 +63,26 @@ int Atleta::capacidad(const Deporte d) const {
 
     //void entrenarNuevoDeporte(const Deporte deporte, const int capacidad);
 void Atleta::entrenarNuevoDeporte(const Deporte deporte, const int capacidad) {
-	int i=0;
-	Lista<pair<Deporte, int> > tempDeportes;
-    pair <Deporte,int> nuevoDep = make_pair (deporte,capacidad);
-    	//cout << "Tengo lista: " << this->deportes() << " Voy a agregar: "<< deporte << endl;
-    if(_deportes.longitud() > 0) {
-    	while(i<_deportes.longitud()) {
-    			//cout << "Cliclo letra -> " << _deportes.iesimo(i).first << endl;
-    		if(_deportes.iesimo(i).first < deporte && ((i+1) < _deportes.longitud()) && (_deportes.iesimo(i+1).first > deporte)) {
-    			tempDeportes.agregarAtras(_deportes.iesimo(i));
-    			tempDeportes.agregarAtras(nuevoDep);
-    		}
-    		else if(_deportes.iesimo(i).first < deporte && ((i+1) >= _deportes.longitud())) {
-    				//cout << "Es "<<_deportes.iesimo(i).first<<" < "<<deporte << " y es la ultima" <<endl;
-    				//cout << "-- " << tempDeportes << endl;
-    			tempDeportes.agregarAtras(_deportes.iesimo(i));
-    			tempDeportes.agregarAtras(nuevoDep);
-    				//cout << "-- " << tempDeportes << endl;
-    		}
-    		else if(_deportes.iesimo(i).first == deporte) {
-    			tempDeportes.agregarAtras(nuevoDep);
-    		}
-    		else {
-    			tempDeportes.agregarAtras(_deportes.iesimo(i));
-    		}
-    		i++;
-    	}
-    }
-    else {
-    	pair <Deporte,int> nuevoDep = make_pair (deporte,capacidad);
-    	tempDeportes.agregar(nuevoDep);
-    }
-    _deportes = tempDeportes;
-    	//cout << "Final: " << deportes() << endl;
-
+	Lista<pair<Deporte, int> > newDeportes;
+	bool agregado = false;
+	int i = 0;
+	while(i < _deportes.longitud()) {
+		if(deporte < _deportes.iesimo(i).first && !agregado) {
+			newDeportes.agregarAtras(make_pair(deporte, capacidad));
+			newDeportes.agregarAtras(_deportes.iesimo(i));
+			agregado = true;
+		} else if(deporte == _deportes.iesimo(i).first) {
+			newDeportes.agregarAtras(make_pair(deporte, capacidad));
+			agregado = true;
+		} else {
+			newDeportes.agregarAtras(_deportes.iesimo(i));
+		}
+		i++;
+	}
+	if(!agregado) {
+		newDeportes.agregarAtras(make_pair(deporte, capacidad));
+	}
+	_deportes = newDeportes;
 }
 
 bool Atleta::operator==(const Atleta& a) const {
