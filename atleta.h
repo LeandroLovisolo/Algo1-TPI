@@ -1,14 +1,11 @@
 #ifndef ATLETA_H
 #define ATLETA_H
+
 #include <iostream>
 #include <fstream>
+
 #include "tipos.h"
 #include "lista.h"
-
-template<typename T, typename S> ostream& operator<<(ostream& o, const pair<T, S>& x) {
-	o << x.first << " " << x.second;
-	return o;
-}
 
 class Atleta{
     public:
