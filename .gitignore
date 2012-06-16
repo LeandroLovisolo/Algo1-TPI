@@ -10,3 +10,9 @@
 *.lai
 *.la
 *.a
+
+# Code::Blocks project files
+*.cbp
+
+# PDF files
+*.pdf
