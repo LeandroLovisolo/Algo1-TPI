@@ -66,6 +66,74 @@ Lista<Atleta> JJOO::dePaseo() const {
 }
 
 Lista<pair<Pais,Lista<int> > > JJOO::medallero() const {
+    /*
+    //Lista con los atletas que ganaron oro plata o bronce
+    int h=0;
+    Lista<Atleta> rank;
+    while(h<competenciasFinalizadasConOroEnPodio().longitud()){
+        if (competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().longitud()<3){
+            rank.concatenar(competenciasFinalizadasConOroEnPodio().iesimo(h).ranking());
+        }else{
+            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(0));
+            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(1));
+            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(2));
+        }
+        h++;
+    }
+//Lista con los paises que ganaron medallas sin repetidos
+    int i = 0;
+    Lista<Pais> paisesGanadores;
+    while  (i<rank.longitud()){
+        if (!(paisesGanadores.pertenece(rank.iesimo(i).nacionalidad()))){
+            paisesGanadores.agregar(rank.iesimo(i).nacionalidad());
+        }else{
+            paisesGanadores;
+        }
+        i++;
+    }
+//Lista con las nacionalidades de los atletas que ganaron medallas de oro repetidos. Es decir la cant de apraciones
+//de un pais en esta lista me dice cuantas medallas de oro gano
+    int m=0;
+    Lista<Pais> atlesMedallasOro;
+    while (m<competenciasFinalizadasConOroEnPodio().longitud()){
+      atlesMedallasOro.agregarAtras(competenciasFinalizadasConOroEnPodio().iesimo(m).ranking().iesimo(0).nacionalidad());
+        m++;
+        }
+//Igual que arriba pero de plata
+    int j=0;
+    Lista<Pais> atlesMedallasPlata;
+    while (j<competenciasFinalizadasConOroEnPodio().longitud()){
+        if (competenciasFinalizadasConOroEnPodio().iesimo (j).ranking().longitud()>1){
+            atlesMedallasPlata.agregarAtras(competenciasFinalizadasConOroEnPodio().iesimo(m).ranking().iesimo(1).nacionalidad());
+        }else{
+        atlesMedallasPlata;
+        }
+        j++;
+    }
+//Igual que arriba pero bronce
+    int k=0;
+    Lista<Pais> atlesMedallasBronce;
+    while (k<competenciasFinalizadasConOroEnPodio().longitud()){
+        if (competenciasFinalizadasConOroEnPodio().iesimo(k).ranking().longitud()>2{
+            atlesMedallasBronce.agregarAtras(competenciasFinalizadasConOroEnPodio().iesimo(k).ranking().iesimo(2).nacionalidad());
+        }else{
+        atlesMedallasBronce;
+        }
+        k++;
+    }
+
+    Lista<pair<Pais,Lista<int> > > paisesYMedallas;
+    Lista<int> medallas;
+    int n=0;
+    while (n<paisesGanadores.longitud()){
+        Lista<int> medallas;
+        medallas.agregarAtras(atlesMedallasOro.cantidadDeApariciones(paisesGanadores.iesimo(n)));
+        medallas.agregarAtras(atlesMedallasPlata.cantidadDeApariciones(paisesGanadores.iesimo(n)));
+        medallas.agregarAtras(atlesMedallasBronce.cantidadDeApariciones(paisesGanadores.iesimo(n)));
+        paisesYMedallas.agregar(make_pair(paisesGanadores.iesimo(n), medallas))
+        n++;
+        }
+    */
 	return Lista<pair<Pais,Lista<int> > >();
 }
 
