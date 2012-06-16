@@ -16,3 +16,11 @@
 
 # PDF files
 *.pdf
+
+# Build system
+CMake*
+Makefile
+ojota
+*.depend
+*.cmake
+bin/
