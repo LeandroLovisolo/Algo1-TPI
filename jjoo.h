@@ -9,7 +9,7 @@ class JJOO{
     public:
 
         JJOO();
-        // |cronograma|==cantDias. Si un d�a no hay competencias,q est� la lista vac�a.
+        // |cronograma|==cantDias. Si un día no hay competencias, que esté la lista vacía.
         JJOO(const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia);
         int anio() const;
         Lista<Atleta> atletas() const;
@@ -40,7 +40,10 @@ class JJOO{
         int _anio;
         Lista<Atleta> _atletas;
         int _jornadaActual;
-        Lista<Lista<Competencia> > _competenciasPorDia;         // En la i-�sima posici�n de la lista, las competencias del d�a i+1.
+        Lista<Lista<Competencia> > _competenciasPorDia;         // En la i-ésima posición de la lista, las competencias del día i+1.
+
+        enum {ENCABEZADO_ARCHIVO = 'J'};
+
         Lista<Atleta> participantesJJOO(const Lista<Competencia> competencias) const;
         bool mismosAtletas(const JJOO& c) const;
         bool mismoCronograma(const JJOO& j) const;
@@ -53,8 +56,8 @@ class JJOO{
         Lista<int> crearRanking(const Competencia& c);
         bool ganoMedallaEseDia(Pais p, int x) const;
         int maxDiasSinGanar(Lista<int> lista) const;
-        enum {ENCABEZADO_ARCHIVO = 'J'};
 };
+
 std::ostream & operator<<(std::ostream & os,const JJOO & j);
 
 #endif // JJOO_H

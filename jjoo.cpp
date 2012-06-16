@@ -8,27 +8,34 @@ JJOO::JJOO () {
 	Lista<Competencia> listaCompetencias;
 	_competenciasPorDia.agregarAtras(listaCompetencias);
 }
+
 JJOO::JJOO (const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia){
     _anio = anio;
     _atletas = atletas;
     _jornadaActual = 1;
     _competenciasPorDia = competenciasPorDia;
 }
+
 int JJOO::anio() const{
     return _anio;
 }
+
 Lista<Atleta> JJOO::atletas() const {
     return _atletas;
 }
+
 int JJOO::cantDias() const {
     return _competenciasPorDia.longitud ();
 }
+
 int JJOO::jornadaActual() const {
     return _jornadaActual;
 }
+
 Lista<Competencia> JJOO::cronograma(const int dia) const {
     return _competenciasPorDia.iesimo(dia-1);
 }
+
 Lista<Competencia> JJOO::competencias() const {
     int i = 0;
     Lista<Competencia> competencias;
@@ -580,7 +587,6 @@ Lista<pair<int,bool> > JJOO::doping(const Competencia c){
     return x;
 }
 
-
 bool JJOO::operator==(const JJOO& j) const {
 	return _anio == j.anio() && _jornadaActual == j.jornadaActual() && mismosAtletas(j) && mismoCronograma(j);
 }
@@ -606,6 +612,7 @@ void JJOO::mostrar(std::ostream& os) const {
 	}
 
 }
+
 void JJOO::guardar(std::ostream& os) const {
 	os << "J " << _anio << " " << _jornadaActual << " [";
 	int i=0;
@@ -640,6 +647,7 @@ void JJOO::guardar(std::ostream& os) const {
 	}
 	os << "]";
 }
+
 void JJOO::cargar (std::istream& is) {
 	char c;
 	//Saco J anio jornada [
@@ -712,7 +720,10 @@ void JJOO::cargar (std::istream& is) {
 
 }
 
-//AUX
+/********************************
+ *          AUXILIARES          *
+ ********************************/
+
 Lista<Atleta> JJOO::participantesJJOO(const Lista<Competencia> competencias) const {
 	int i=0;
 	Lista<Atleta> participantes;
