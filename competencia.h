@@ -6,7 +6,6 @@
 
 class Competencia{
     public:
-
         Competencia();
         Competencia(const Deporte d, const Sexo s, const Lista<Atleta>& participantes);
         Categoria categoria() const;
@@ -26,23 +25,23 @@ class Competencia{
         bool operator==(const Competencia& c) const;
 
         void mostrar(std::ostream& os) const;
-
         void guardar(std::ostream& os) const;
-
 		void cargar (std::istream& is);
-	private:
 
+	private:
         Categoria _categoria;
         Lista<Atleta> _participantes;
         bool _finalizada;
         Lista<int> _ranking;
         Lista<pair<int, bool> > _controlAntidoping;
+
+        enum {ENCABEZADO_ARCHIVO = 'C'};
+
         Atleta atletaConCia(const int ciaNumber) const;
         bool mismoDoping(const Competencia& c) const;
         bool mismosParticipantes(const Competencia& c) const;
-        bool mismaCategoria(const Competencia& c) const;
-        enum {ENCABEZADO_ARCHIVO = 'C'};
 };
+
 std::ostream & operator<<(std::ostream & os,const Competencia & c);
 
 #endif // COMPETENCIA_H

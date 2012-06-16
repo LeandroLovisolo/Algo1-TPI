@@ -87,17 +87,15 @@ void Competencia::sancionarTramposos() {
 }
 
 bool Competencia::operator==(const Competencia& c) const {
-	bool vale;
-	if(_finalizada && c.finalizada()) {
-		vale = mismosParticipantes(c) && mismaCategoria(c);
+	bool iguales = mismosParticipantes(c)     &&
+			       _categoria == c._categoria &&
+			       _finalizada == c._finalizada;
+	if(_finalizada && c._finalizada) {
+		iguales = iguales                &&
+				  _ranking == c._ranking &&
+				  mismoDoping(c);
 	}
-	else if(!_finalizada && !c.finalizada()) {
-		vale = mismosParticipantes(c) && mismoDoping(c) && ranking() == c.ranking() && mismaCategoria(c);
-	}
-	else {
-		vale = false;
-	}
-	return vale;
+	return iguales;
 }
 
 void Competencia::mostrar(std::ostream& os) const {
@@ -331,7 +329,10 @@ void Competencia::cargar (std::istream& is) {
 	}
 }
 
-//AUX
+/********************************
+ *          AUXILIARES          *
+ ********************************/
+
 Atleta Competencia::atletaConCia(const int ciaNumber) const {
 	int i = 0;
 	Atleta atle;
@@ -343,40 +344,23 @@ Atleta Competencia::atletaConCia(const int ciaNumber) const {
 	}
 	return atle;
 }
-bool Competencia::mismoDoping(const Competencia& c) const {
-	int i = 0;
-	bool igual = true;
-	if(_controlAntidoping.longitud() == c.lesTocoControlAntidoping().longitud()) {
-		while(i<_controlAntidoping.longitud()) {
-			if(!c.lesTocoControlAntidoping().pertenece(atletaConCia(_controlAntidoping.iesimo(i).first)) ||
-					!(c.leDioPositivo(atletaConCia(_controlAntidoping.iesimo(i).first)) == _controlAntidoping.iesimo(i).second)) {
-				igual = false;
-			}
-			i++;
-		}
-	}
-	else {
-		igual = false;
-	}
-	return igual;
-}
+
 bool Competencia::mismosParticipantes(const Competencia& c) const {
+	bool iguales = _participantes.longitud() == c._participantes.longitud();
 	int i = 0;
-	bool igual = true;
-	if(_participantes.longitud() == c.participantes().longitud()) {
-		while(i<_participantes.longitud()) {
-			if(!c.participantes().pertenece(_participantes.iesimo(i))) {
-				igual = false;
-			}
-			i++;
-		}
+	while(i < _participantes.longitud()) {
+		iguales = iguales && c._participantes.pertenece(_participantes.iesimo(i));
+		i++;
 	}
-	else {
-		igual = false;
-	}
-	return igual;
+	return iguales;
 }
 
-bool Competencia::mismaCategoria(const Competencia& c) const {
-	return (categoria().first == c.categoria().first) && (categoria().second == c.categoria().second);
+bool Competencia::mismoDoping(const Competencia& c) const {
+	bool iguales = _controlAntidoping.longitud() == c._controlAntidoping.longitud();
+	int i = 0;
+	while(i < _controlAntidoping.longitud()) {
+		iguales = iguales && c._controlAntidoping.pertenece(_controlAntidoping.iesimo(i));
+		i++;
+	}
+	return iguales;
 }
