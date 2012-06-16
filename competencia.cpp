@@ -23,22 +23,22 @@ bool Competencia::finalizada() const {
 
 Lista<Atleta> Competencia::ranking() const {
 	int i=0;
-    Lista<Atleta> tempAtletas;
+    Lista<Atleta> atletas;
     while(i<_ranking.longitud()) {
-    	tempAtletas.agregarAtras(this->atletaConCia(_ranking.iesimo(i)));
+    	atletas.agregarAtras(this->atletaConCia(_ranking.iesimo(i)));
         i++;
     }
-    return tempAtletas;
+    return atletas;
 }
 
 Lista<Atleta> Competencia::lesTocoControlAntidoping() const {
-	Lista<Atleta> tempAtle;
+	Lista<Atleta> atletas;
     int i = 0;
     while(i<_controlAntidoping.longitud()) {
-    	tempAtle.agregarAtras(atletaConCia(_controlAntidoping.iesimo(i).first));
+    	atletas.agregarAtras(atletaConCia(_controlAntidoping.iesimo(i).first));
         i++;
     }
-    return tempAtle;
+    return atletas;
 }
 
 bool Competencia::leDioPositivo(const Atleta& a) const {
