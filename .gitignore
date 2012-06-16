@@ -11,8 +11,9 @@
 *.la
 *.a
 
-# Code::Blocks project files
+# Code::Blocks files
 *.cbp
+*.layout
 
 # PDF files
 *.pdf
@@ -24,3 +25,8 @@ ojota
 *.depend
 *.cmake
 bin/
+
+# Eclipse CDT
+.project
+.cproject
+Debug/
