@@ -5,8 +5,7 @@
 
 JJOO::JJOO () {
 	_jornadaActual = 1;
-	Lista<Competencia> listaCompetencias;
-	_competenciasPorDia.agregarAtras(listaCompetencias);
+	_competenciasPorDia.agregar(Lista<Competencia>());
 }
 
 JJOO::JJOO (const int anio, const Lista<Atleta>& atletas, const Lista<Lista<Competencia> >& competenciasPorDia){
