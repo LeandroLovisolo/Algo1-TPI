@@ -374,7 +374,110 @@ Atleta JJOO::stevenBradbury() const {
 }
 
 bool JJOO::uyOrdenadoAsiHayUnPatron() const {
-	return true;
+
+	// Guardo acá la secuencia de mejores países.
+	Lista<Pais> mejoresPaises;
+
+	// Recorro los juegos día por día.
+	int dia = 1;
+	while(dia <= cantDias()) {
+
+		// Guardo acá la cantidad de oros por país.
+		Lista<pair<Pais, int> > oros;
+
+		// Recorro el las competencias de este día.
+		int i = 0;
+		while(i < cronograma(dia).longitud()) {
+			Competencia actual = cronograma(dia).iesimo(i);
+
+			// Si la competencia actual está finalizada y alguien se llevó el oro,
+			// voy a buscar la nacionalidad del medallista y voy a sumarle un oro a
+			// ese país en mi lista de oros por país. En caso contrario, ignoro
+			// esta competencia.
+			if(actual.finalizada() && actual.ranking().longitud() > 0) {
+				Pais pais = actual.ranking().iesimo(0).nacionalidad();
+
+				// Busco el país del medallista en mi lista de oros por país.
+				bool encontrado = false;
+				int j = 0;
+				while(j < oros.longitud() && !encontrado) {
+
+					// Si encontré el país del medallista en mi lista de oros por país,
+					// aumento en uno la cantidad de oros de ese país.
+					if(oros.iesimo(j).first == pais) {
+						pair<Pais, int> nuevaTupla = make_pair(oros.iesimo(j).first, oros.iesimo(j) + 1);
+						oros.eliminarPosicion(j);
+						oros.agregarAtras(nuevaTupla);
+						encontrado = true;
+					}
+				}
+
+				// Si el país del medallista no estaba en la lista de oros por país,
+				// agrego ese país a la lista, con cantidad de oros uno.
+				if(!encontrado) {
+					oros.agregarAtras(make_pair(pais, 1));
+				}
+			}
+
+			i++;
+		}
+
+		// Si hubieron oros este día, busco al mejor país y lo agrego a mejoresPaises.
+		if(oros.longitud() > 0) {
+
+			// Guardo acá el mejor país hasta el momento (tupla país/oros.)
+			pair<Pais, int> mejorPais;
+
+			// Recorro la lista de oros por país.
+			i = 0;
+			while(i < oros.longitud()) {
+
+				// Si el país i-ésimo es el primero de la lista de oros, o si tiene más oros que el mejor país
+				// hasta el momento, o si tiene igual cantidad de oros pero es  lexicográficamente menor,
+				// entonces convierto al país i-ésimo en el mejor país hasta el momento.
+				if( i == 0 ||
+				    oros.iesimo(i).second > mejorPais.second ||
+				   (oros.iesimo(i).second == mejorPais.second && oros.iesimo(i).first < mejorPais.first)) {
+					mejorPais = oros.iesimo(i);
+				}
+
+				i++;
+			}
+
+			// Finalmente, agrego al mejor país del día a la lista de mejores países.
+			mejoresPaises.agregarAtras(mejorPais.first);
+		}
+
+		dia++;
+	}
+
+	bool hayPatron = true;
+
+	// Busco patrón si y sólo si hay tres o más mejores países.
+	if(mejoresPaises.longitud() >= 3) {
+
+		// Recorro la lista de mejores países hasta el anteúltimo elemento.
+		int i = 0;
+		while(i < mejoresPaises.longitud() - 1) {
+			Pais actual    = mejoresPaises.iesimo(i);
+			Pais siguiente = mejoresPaises.iesimo(i + 1);
+
+			// Recorro todos los países a la derecha del país actual
+			int j = i + 1;
+			while(j < mejoresPaises.longitud() - 1) {
+
+				// Si el país j-ésimo es el mismo que el actual, verifico que el patrón
+				// se cumpla (el elemento siguiente siempre debe ser el mismo.)
+				if(mejoresPaises.iesimo(j) == actual) {
+					hayPatron = hayPatron && (mejoresPaises.iesimo(j + 1) == siguiente);
+				}
+			}
+
+			i++;
+		}
+	}
+
+	return hayPatron;
 }
 
 Lista<Pais> JJOO::sequiaOlimpica() const {
