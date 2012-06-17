@@ -513,16 +513,10 @@ bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 }
 
 Lista<Pais> JJOO::sequiaOlimpica() const {
-    int i=0;
-    Lista<Pais> paises;
-    while (i < atletas().longitud()){
-        if (!paises.pertenece(atletas().iesimo(i).nacionalidad())) {
-            paises.agregar(atletas().iesimo(i).nacionalidad());
-        }
-        i++;
-    }
-    i=0;
+    Lista<Pais> paises = this->paises();
+
     Lista<pair<Pais,int> > paisDiasSinGanar;
+    int i=0;
     while (i < paises.longitud()) {
         int y = 1;
         Lista<int> jornadas;
