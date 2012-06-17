@@ -46,8 +46,8 @@ Lista<Competencia> JJOO::competencias() const {
 }
 
 Lista<Competencia> JJOO::competenciasFinalizadasConOroEnPodio() const {
-	int i = 0;
 	Lista<Competencia> result;
+	int i = 0;
 	while (i < competencias().longitud())   {
 		Competencia actual = competencias().iesimo(i);
 		if (actual.finalizada() && actual.ranking().longitud() > 0) {
@@ -119,27 +119,33 @@ Lista<Pais> JJOO::paises() const {
 }
 
 Lista<pair<Pais,Lista<int> > > JJOO::ordenarMedallero(const Lista<pair<Pais,Lista<int> > > & medallero) const {
+
+	// Guardo acá mi copia ordenada del medallero.
 	Lista<pair<Pais, Lista<int> > > ordenado;
 
-	// Recorro el medallero
+	// Recorro el medallero.
 	int i = 0;
 	while(i < medallero.longitud()) {
+
+		// Obtengo el país y las medallas de la tupla país/medallas actual.
 		pair<Pais, Lista<int> > paisActual = medallero.iesimo(i);
 		int oros    = paisActual.second.iesimo(0);
 		int platas  = paisActual.second.iesimo(1);
 		int bronces = paisActual.second.iesimo(2);
 
+		// Guardo acá una copia de las tuplas país/medallas que ya ordené, junto con
+		// la tupla país/medallas actual en la posición correcta.
 		Lista<pair<Pais, Lista<int> > > nuevoOrdenado;
 		bool agregado = false;
 
-		// Recorro las tuplas país/medallas que ya ordené
+		// Recorro las tuplas país/medallas que ya ordené.
 		int j = 0;
 		while(j < ordenado.longitud()) {
 			int orosOtro    = ordenado.iesimo(j).second.iesimo(0);
 			int platasOtro  = ordenado.iesimo(j).second.iesimo(1);
 			int broncesOtro = ordenado.iesimo(j).second.iesimo(2);
 
-			// Ubico a la tupla país/medallas actual en la posición correcta dentro de la lista ordenada
+			// Ubico a la tupla país/medallas actual en la posición correcta dentro de la lista ordenada.
 			if( !agregado &&
 			   ((oros >  orosOtro) ||
 			    (oros == orosOtro && platas >  platasOtro) ||
@@ -152,7 +158,13 @@ Lista<pair<Pais,Lista<int> > > JJOO::ordenarMedallero(const Lista<pair<Pais,List
 			j++;
 		}
 
+		// Si luego de recorrer las tuplas país/medallas ya ordenadas resulta que todavía no agregué
+		// la tupla país/medallas actual, es porque la tupla actual es la que menos medallas tiene, y
+		// por lo tanto su posición es al final de la lista.
 		if(!agregado) nuevoOrdenado.agregarAtras(paisActual);
+
+		// Finalmente, reemplazo el medallero ordenado actual por mi nuevo medallero ordenado, que
+		// incluye a la tupla país/medallas actual.
 		ordenado = nuevoOrdenado;
 
 		i++;
