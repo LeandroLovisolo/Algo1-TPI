@@ -417,7 +417,7 @@ bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 					// Si encontré el país del medallista en mi lista de oros por país,
 					// aumento en uno la cantidad de oros de ese país.
 					if(oros.iesimo(j).first == pais) {
-						pair<Pais, int> nuevaTupla = make_pair(oros.iesimo(j).first, oros.iesimo(j) + 1);
+						pair<Pais, int> nuevaTupla = make_pair(oros.iesimo(j).first, oros.iesimo(j).second + 1);
 						oros.eliminarPosicion(j);
 						oros.agregarAtras(nuevaTupla);
 						encontrado = true;
