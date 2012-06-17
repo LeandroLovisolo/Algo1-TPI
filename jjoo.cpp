@@ -362,24 +362,41 @@ void JJOO::liuSong(const Atleta& a, const Pais p) {
 }
 
 Atleta JJOO::stevenBradbury() const {
-    int i = 0;
-    Lista<pair<Atleta,Categoria> > ganadoresPorCategoria;
-    while (i < competenciasFinalizadasConOroEnPodio().longitud()){
-        Atleta ganador = competenciasFinalizadasConOroEnPodio().iesimo(i).ranking().iesimo(0);
-        Categoria cat = competenciasFinalizadasConOroEnPodio().iesimo(i).categoria();
-        pair<Atleta,Categoria> par = make_pair (ganador,cat);
-        ganadoresPorCategoria.agregarAtras(par);
-        i++;
-    }
-    i = 0;
-    pair<Atleta,int> menorCapacidad = make_pair (ganadoresPorCategoria.iesimo(0).first, 0);
-    while (i < ganadoresPorCategoria.longitud()) {
-        if (menorCapacidad.first.capacidad(ganadoresPorCategoria.iesimo(menorCapacidad.second).second.first) > ganadoresPorCategoria.iesimo(i).first.capacidad(ganadoresPorCategoria.iesimo(i).second.first) ) {
-            menorCapacidad = make_pair (ganadoresPorCategoria.iesimo(i).first, i);
-        }
-        i++;
-    }
-	return menorCapacidad.first;
+	// Guardo el atleta con menor capacidad, y la menor de sus
+	// capacidades de los deportes en los que salió campeón.
+	Atleta atletaMenosCapaz;
+	int capacidadMenosCapaz;
+
+	// Recorro la lista de competencias finalizadas con oro.
+	int i = 0;
+	while(i < competenciasFinalizadasConOroEnPodio().longitud()) {
+
+		// Guardo el campeón de la competencia actual y
+		// su capacidad en el deporte de la misma.
+		Competencia competencia = competenciasFinalizadasConOroEnPodio().iesimo(i);
+		Atleta campeon = competencia.ranking().cabeza();
+		int capacidadCampeon = campeon.capacidad(competencia.categoria().first);
+
+		// Si es la primera competencia que recorro, entonces tomo al campeón
+		// de la misma como el atleta menos capaz hasta el momento.
+		if(i == 0) {
+			atletaMenosCapaz = campeon;
+			capacidadMenosCapaz = capacidadCampeon;
+		}
+
+		// En caso contrario, si el campeón de esta competencia tiene una menor capacidad
+		// que el atleta menos capaz hasta el momento, lo tomo como el menso capaz.
+		else {
+			if(capacidadCampeon < capacidadMenosCapaz) {
+				atletaMenosCapaz = campeon;
+				capacidadMenosCapaz = capacidadCampeon;
+			}
+		}
+
+		i++;
+	}
+
+	return atletaMenosCapaz;
 }
 
 bool JJOO::uyOrdenadoAsiHayUnPatron() const {
