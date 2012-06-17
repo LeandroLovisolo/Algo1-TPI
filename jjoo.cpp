@@ -62,8 +62,6 @@ Lista<Atleta> JJOO::dePaseo() const {
     Lista<Atleta> result;
     int i = 0;
 	while (i < _atletas.longitud()) {
-		//Si no alguno de los que esta en la lista de atletas del JJOO no pertenece a la lista de participantes lo agrega
-		//Faltaba la negacion(!)
 		if (!participantes().pertenece(_atletas.iesimo(i))) {
 			result.agregar(_atletas.iesimo(i));
 		}
