@@ -109,13 +109,10 @@ void Competencia::mostrar(std::ostream& os) const {
 	os << endl << "Participantes:" << endl;
 	int i=0;
 	while(i<participantes().longitud()) {
-		os << "(";
-		participantes().iesimo(i).guardar(os);
-		os << ")";
+		os << "  " << participantes().iesimo(i).nombre() <<
+		      " (#" << participantes().iesimo(i).ciaNumber() << "). " <<
+		      "Capacidad: " << participantes().iesimo(i).capacidad(_categoria.first) << endl;
 		i++;
-		if(i<participantes().longitud()) {
-			os << ",";
-		}
 	}
 	os << endl << "Finalizada: ";
 	if(_finalizada) {
@@ -223,7 +220,9 @@ void Competencia::cargar (std::istream& is) {
 	Sexo sexo;
 	string stringFinalizada;
 	//Saco C , ( y |
-	is >> c >> c >> c;
+	is >> c;
+	is >> c;
+	is >> c;
 	getline(is, stringDeporte, '|');
 	//Saco , y |
 	is >> c >> c;
@@ -321,6 +320,8 @@ void Competencia::cargar (std::istream& is) {
 				doping.agregarAtras(make_pair(ciaNumber, positive));
 			}
 		}
+		//Saco ]
+		is >> c;
 		finalizar(ranking, doping);
 	}
 	else {

@@ -105,17 +105,25 @@ bool Atleta::operator==(const Atleta& a) const {
 }
 
 void Atleta::mostrar(std::ostream& os) const {
-	os << "---- Atleta ----" << endl;
-	os << "Nombre: " << nombre() << " Sexo: ";
-	if(sexo() == Masculino) {
-		os << "Masculino";
+	string sexo = "Masculino";
+	if(_sexo == Femenino) sexo = "Femenino";
+
+	os << _nombre << " (#" << _ciaNumber << "). " <<
+		  sexo << ". Año nac.: " << _anioNacimiento << ". " <<
+		  "Nacionalidad: " << _nacionalidad << ". " << "Deportes: ";
+
+	if(_deportes.longitud() == 0) {
+		os << "ninguno.";
+	} else {
+		int i = 0;
+		while(i < _deportes.longitud()) {
+			os << endl << "  " << _deportes.iesimo(i).first << " (" <<
+				                  _deportes.iesimo(i).second << ")";
+			i++;
+		}
 	}
-	else {
-		os << "Femenino";
-	}
-	os << " Anio: " << anioNacimiento() << " Pais: " << nacionalidad() << " CiaNumber: " << ciaNumber() << endl;
-	os << "Deportes:" << endl;
-	os << deportes() << endl;
+
+	os << endl;
 }
 
 void Atleta::guardar(std::ostream& os) const {
