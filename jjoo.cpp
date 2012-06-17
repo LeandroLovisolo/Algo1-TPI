@@ -570,22 +570,27 @@ int JJOO::maxDiasSinGanar(Lista<int> lista) const{
     return maximo;
 }
 
-bool JJOO::ganoMedallaEseDia(Pais p, int x) const{
+bool JJOO::ganoMedallaEseDia(Pais p, int d) const{
+    bool gano = false;
+
+    // Recorro el cronograma del día.
     int i = 0;
-    bool igual=false;
-    while (i< cronograma(x).longitud()){
-        if (cronograma(x).iesimo(i).finalizada() &&
-        (((cronograma(x).iesimo(i).ranking().longitud() >= 1) && (cronograma(x).iesimo(i).ranking().iesimo(0).nacionalidad()==p)) ||
-        ((cronograma(x).iesimo(i).ranking().longitud() >= 2) && (cronograma(x).iesimo(i).ranking().iesimo(1).nacionalidad()==p)) ||
-        ((cronograma(x).iesimo(i).ranking().longitud() >= 3) && (cronograma(x).iesimo(i).ranking().iesimo(2).nacionalidad()==p)))) {
-            igual=true;
-            i= cronograma(x).longitud();
-        }
-        else {
-            i++;
-        }
+    while(i < cronograma(d).longitud()) {
+    	Competencia competencia = cronograma(d).iesimo(i);
+
+    	// Recorro el ranking de la competencia actual hasta el tercer puesto.
+    	int j = 0;
+    	while(j < competencia.ranking().longitud() && j < 3) {
+
+    		// El valor de retorno es true sólo si el país ganó alguna medalla.
+    		gano = gano || competencia.ranking().iesimo(j).nacionalidad() == p;
+    		j++;
+    	}
+
+    	i++;
     }
-    return igual;
+
+    return gano;
 }
 
 void JJOO::transcurrirDia() {
