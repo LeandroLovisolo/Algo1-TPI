@@ -44,7 +44,7 @@ class JJOO{
 
         enum {ENCABEZADO_ARCHIVO = 'J'};
 
-        Lista<Atleta> participantesJJOO(const Lista<Competencia> competencias) const;
+        Lista<Atleta> participantes() const;
         bool mismosAtletas(const JJOO& c) const;
         bool mismoCronograma(const JJOO& j) const;
         Lista<int> rank(Competencia c);

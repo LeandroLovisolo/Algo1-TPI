@@ -32,43 +32,44 @@ int JJOO::jornadaActual() const {
 }
 
 Lista<Competencia> JJOO::cronograma(const int dia) const {
-    return _competenciasPorDia.iesimo(dia-1);
+    return _competenciasPorDia.iesimo(dia - 1);
 }
 
 Lista<Competencia> JJOO::competencias() const {
-    int i = 0;
     Lista<Competencia> competencias;
-        while (i<cantDias()) {
-            competencias.concatenar(_competenciasPorDia.iesimo(i));
-            i++;
-        }
+    int i = 0;
+	while (i < cantDias()) {
+		competencias.concatenar(_competenciasPorDia.iesimo(i));
+		i++;
+	}
     return competencias;
 }
 
 Lista<Competencia> JJOO::competenciasFinalizadasConOroEnPodio() const {
 	int i = 0;
-	Lista<Competencia> comp;
-        while (i < competencias().longitud())   {
-            if ((competencias().iesimo(i)).finalizada() && ((competencias().iesimo(i)).ranking()).longitud() > 0 ) {
-            	comp.agregar(competencias().iesimo(i));
-            }
-            i++;
-        }
-	return comp;
+	Lista<Competencia> result;
+	while (i < competencias().longitud())   {
+		Competencia actual = competencias().iesimo(i);
+		if (actual.finalizada() && actual.ranking().longitud() > 0) {
+			result.agregar(actual);
+		}
+		i++;
+	}
+	return result;
 }
 
 Lista<Atleta> JJOO::dePaseo() const {
-    int i=0;
-    Lista<Atleta> atletas;
-        while (i< _atletas.longitud()) {
-        	//Si no alguno de los que esta en la lista de atletas del JJOO no pertenece a la lista de participantes lo agrega
-        	//Faltaba la negacion(!)
-            if (!participantesJJOO(competencias()).pertenece(_atletas.iesimo(i))) {
-                atletas.agregar(_atletas.iesimo(i));
-            }
-            i++;
-        }
-	return atletas;
+    Lista<Atleta> result;
+    int i = 0;
+	while (i < _atletas.longitud()) {
+		//Si no alguno de los que esta en la lista de atletas del JJOO no pertenece a la lista de participantes lo agrega
+		//Faltaba la negacion(!)
+		if (!participantes().pertenece(_atletas.iesimo(i))) {
+			result.agregar(_atletas.iesimo(i));
+		}
+		i++;
+	}
+	return result;
 }
 
 Lista<pair<Pais,Lista<int> > > JJOO::medallero() const {
@@ -237,7 +238,7 @@ Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
 //Acá me fijo cual es el atleta que participó en mas competencias
         int k = 0, j=0;
         Atleta maxAp = atles.iesimo(k);
-        Lista<Atleta> atlecomp= participantesJJOO(competencias());
+        Lista<Atleta> atlecomp= participantes();
         while (j < atles.longitud()){
             if (atlecomp.cantidadDeApariciones(maxAp)>atlecomp.cantidadDeApariciones(atles.iesimo(j))){
                 	maxAp = atles.iesimo(j);
@@ -723,11 +724,11 @@ void JJOO::cargar (std::istream& is) {
  *          AUXILIARES          *
  ********************************/
 
-Lista<Atleta> JJOO::participantesJJOO(const Lista<Competencia> competencias) const {
-	int i=0;
+Lista<Atleta> JJOO::participantes() const {
 	Lista<Atleta> participantes;
-	while (i < competencias.longitud()) {
-    	participantes.concatenar(competencias.iesimo(i).participantes());
+	int i = 0;
+	while (i < competencias().longitud()) {
+    	participantes.concatenar(competencias().iesimo(i).participantes());
     	i++;
 	}
 	return participantes;
