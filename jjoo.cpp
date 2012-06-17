@@ -423,6 +423,8 @@ bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 						oros.agregarAtras(nuevaTupla);
 						encontrado = true;
 					}
+
+					j++;
 				}
 
 				// Si el país del medallista no estaba en la lista de oros por país,
@@ -484,6 +486,8 @@ bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 				if(mejoresPaises.iesimo(j) == actual) {
 					hayPatron = hayPatron && (mejoresPaises.iesimo(j + 1) == siguiente);
 				}
+
+				j++;
 			}
 
 			i++;
