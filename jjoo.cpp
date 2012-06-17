@@ -92,12 +92,14 @@ Lista<pair<Pais, Lista<int> > > JJOO::medallero() const {
 			j++;
 		}
 
-		// Agrego al medallero la tupla país/medallas
-		Lista<int> medallas;
-		medallas.agregarAtras(oros);
-		medallas.agregarAtras(platas);
-		medallas.agregarAtras(bronces);
-		medallero.agregar(make_pair(pais, medallas));
+		// Si el país ganó alguna medalla, agrego al medallero la tupla país/medallas.
+		if(oros + platas + bronces > 0) {
+			Lista<int> medallas;
+			medallas.agregarAtras(oros);
+			medallas.agregarAtras(platas);
+			medallas.agregarAtras(bronces);
+			medallero.agregar(make_pair(pais, medallas));
+		}
 
 		i++;
 	}
@@ -109,8 +111,8 @@ Lista<pair<Pais, Lista<int> > > JJOO::medallero() const {
 Lista<Pais> JJOO::paises() const {
 	Lista<Pais> paises;
 	int i = 0;
-	while(i < participantes().longitud()) {
-		Pais actual = participantes().iesimo(i).nacionalidad();
+	while(i < _atletas.longitud()) {
+		Pais actual = _atletas.iesimo(i).nacionalidad();
 		if(!paises.pertenece(actual)) {
 			paises.agregar(actual);
 		}
