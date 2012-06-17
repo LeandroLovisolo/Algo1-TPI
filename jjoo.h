@@ -45,6 +45,8 @@ class JJOO{
         enum {ENCABEZADO_ARCHIVO = 'J'};
 
         Lista<Atleta> participantes() const;
+        Lista<Pais> paises() const;
+        Lista<pair<Pais,Lista<int> > > ordenarMedallero(const Lista<pair<Pais,Lista<int> > > &) const;
         bool mismosAtletas(const JJOO& c) const;
         bool mismoCronograma(const JJOO& j) const;
         Lista<int> rank(Competencia c);

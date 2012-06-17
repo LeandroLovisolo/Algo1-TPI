@@ -70,75 +70,95 @@ Lista<Atleta> JJOO::dePaseo() const {
 	return result;
 }
 
-Lista<pair<Pais,Lista<int> > > JJOO::medallero() const {
-    /*
-    //Lista con los atletas que ganaron oro plata o bronce
-    int h=0;
-    Lista<Atleta> rank;
-    while(h<competenciasFinalizadasConOroEnPodio().longitud()){
-        if (competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().longitud()<3){
-            rank.concatenar(competenciasFinalizadasConOroEnPodio().iesimo(h).ranking());
-        }else{
-            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(0));
-            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(1));
-            rank.agregar(competenciasFinalizadasConOroEnPodio().iesimo (h).ranking().iesimo(2));
-        }
-        h++;
-    }
-//Lista con los paises que ganaron medallas sin repetidos
-    int i = 0;
-    Lista<Pais> paisesGanadores;
-    while  (i<rank.longitud()){
-        if (!(paisesGanadores.pertenece(rank.iesimo(i).nacionalidad()))){
-            paisesGanadores.agregar(rank.iesimo(i).nacionalidad());
-        }else{
-            paisesGanadores;
-        }
-        i++;
-    }
-//Lista con las nacionalidades de los atletas que ganaron medallas de oro repetidos. Es decir la cant de apraciones
-//de un pais en esta lista me dice cuantas medallas de oro gano
-    int m=0;
-    Lista<Pais> atlesMedallasOro;
-    while (m<competenciasFinalizadasConOroEnPodio().longitud()){
-      atlesMedallasOro.agregarAtras(competenciasFinalizadasConOroEnPodio().iesimo(m).ranking().iesimo(0).nacionalidad());
-        m++;
-        }
-//Igual que arriba pero de plata
-    int j=0;
-    Lista<Pais> atlesMedallasPlata;
-    while (j<competenciasFinalizadasConOroEnPodio().longitud()){
-        if (competenciasFinalizadasConOroEnPodio().iesimo (j).ranking().longitud()>1){
-            atlesMedallasPlata.agregarAtras(competenciasFinalizadasConOroEnPodio().iesimo(m).ranking().iesimo(1).nacionalidad());
-        }else{
-        atlesMedallasPlata;
-        }
-        j++;
-    }
-//Igual que arriba pero bronce
-    int k=0;
-    Lista<Pais> atlesMedallasBronce;
-    while (k<competenciasFinalizadasConOroEnPodio().longitud()){
-        if (competenciasFinalizadasConOroEnPodio().iesimo(k).ranking().longitud()>2{
-            atlesMedallasBronce.agregarAtras(competenciasFinalizadasConOroEnPodio().iesimo(k).ranking().iesimo(2).nacionalidad());
-        }else{
-        atlesMedallasBronce;
-        }
-        k++;
-    }
+Lista<pair<Pais, Lista<int> > > JJOO::medallero() const {
+	Lista<pair<Pais, Lista<int> > > medallero;
 
-    Lista<pair<Pais,Lista<int> > > paisesYMedallas;
-    int n=0;
-    while (n<paisesGanadores.longitud()){
-        Lista<int> medallas;
-        medallas.agregarAtras(atlesMedallasOro.cantidadDeApariciones(paisesGanadores.iesimo(n)));
-        medallas.agregarAtras(atlesMedallasPlata.cantidadDeApariciones(paisesGanadores.iesimo(n)));
-        medallas.agregarAtras(atlesMedallasBronce.cantidadDeApariciones(paisesGanadores.iesimo(n)));
-        paisesYMedallas.agregar(make_pair(paisesGanadores.iesimo(n), medallas))
-        n++;
-        }
-    */
-	return Lista<pair<Pais,Lista<int> > >();
+	// Recorro la lista de países
+	int i = 0;
+	while(i < paises().longitud()) {
+		Pais pais = paises().iesimo(i);
+		int oros = 0;
+		int platas = 0;
+		int bronces = 0;
+
+		// Recorro los rankings de todas las competencias y acumulo las medallas del país actual
+		int j = 0;
+		while(j < competencias().longitud()) {
+			Lista<Atleta> ranking = competencias().iesimo(j).ranking();
+			if(ranking.longitud() > 0 && ranking.iesimo(0).nacionalidad() == pais) oros++;
+			if(ranking.longitud() > 1 && ranking.iesimo(1).nacionalidad() == pais) platas++;
+			if(ranking.longitud() > 2 && ranking.iesimo(2).nacionalidad() == pais) bronces++;
+			j++;
+		}
+
+		// Agrego al medallero la tupla país/medallas
+		Lista<int> medallas;
+		medallas.agregarAtras(oros);
+		medallas.agregarAtras(platas);
+		medallas.agregarAtras(bronces);
+		medallero.agregar(make_pair(pais, medallas));
+
+		i++;
+	}
+
+	// Devuelvo el medallero ordenado
+	return ordenarMedallero(medallero);
+}
+
+Lista<Pais> JJOO::paises() const {
+	Lista<Pais> paises;
+	int i = 0;
+	while(i < participantes().longitud()) {
+		Pais actual = participantes().iesimo(i).nacionalidad();
+		if(!paises.pertenece(actual)) {
+			paises.agregar(actual);
+		}
+		i++;
+	}
+	return paises;
+}
+
+Lista<pair<Pais,Lista<int> > > JJOO::ordenarMedallero(const Lista<pair<Pais,Lista<int> > > & medallero) const {
+	Lista<pair<Pais, Lista<int> > > ordenado;
+
+	// Recorro el medallero
+	int i = 0;
+	while(i < medallero.longitud()) {
+		pair<Pais, Lista<int> > paisActual = medallero.iesimo(i);
+		int oros    = paisActual.second.iesimo(0);
+		int platas  = paisActual.second.iesimo(1);
+		int bronces = paisActual.second.iesimo(2);
+
+		Lista<pair<Pais, Lista<int> > > nuevoOrdenado;
+		bool agregado = false;
+
+		// Recorro las tuplas país/medallas que ya ordené
+		int j = 0;
+		while(j < ordenado.longitud()) {
+			int orosOtro    = ordenado.iesimo(j).second.iesimo(0);
+			int platasOtro  = ordenado.iesimo(j).second.iesimo(1);
+			int broncesOtro = ordenado.iesimo(j).second.iesimo(2);
+
+			// Ubico a la tupla país/medallas actual en la posición correcta dentro de la lista ordenada
+			if( !agregado &&
+			   ((oros >  orosOtro) ||
+			    (oros == orosOtro && platas >  platasOtro) ||
+			    (oros == orosOtro && platas == platasOtro && bronces >= broncesOtro))) {
+				nuevoOrdenado.agregarAtras(paisActual);
+				agregado = true;
+			}
+
+			nuevoOrdenado.agregarAtras(ordenado.iesimo(j));
+			j++;
+		}
+
+		if(!agregado) nuevoOrdenado.agregarAtras(paisActual);
+		ordenado = nuevoOrdenado;
+
+		i++;
+	}
+
+	return ordenado;
 }
 
 int JJOO::boicotPorDisciplina(const Categoria cat, const Pais p) {
