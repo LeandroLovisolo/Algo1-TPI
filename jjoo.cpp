@@ -514,76 +514,110 @@ bool JJOO::uyOrdenadoAsiHayUnPatron() const {
 
 Lista<Pais> JJOO::sequiaOlimpica() const {
     Lista<Pais> paises = this->paises();
+    
+	// Guardo acá una lista de tuplas país/máxima cantidad de días que pasaron sin ganar medallas.
+	Lista<pair<Pais,int> > paisDiasSinGanar;
 
-    Lista<pair<Pais,int> > paisDiasSinGanar;
-    int i=0;
+	// Recorro todos los países.
+    int i = 0;
     while (i < paises.longitud()) {
-        int y = 1;
-        Lista<int> jornadas;
-        jornadas.agregar(0);
-        while (y < jornadaActual()){
-            if (ganoMedallaEseDia(paises.iesimo(i), y)) {
-                jornadas.agregarAtras(y);
+    	Pais pais = paises.iesimo(i);
+    	
+    	// Armo una lista con las jornadas ganadoras de ese país.
+        Lista<int> jornadasGanadoras;
+
+        // Agrego un cero al principio de la lista para poder calcular
+        // las diferencias entre días (como en la especificación.)
+        jornadasGanadoras.agregar(0);
+        
+        // Recorro las jornadas hasta la actual, excluyéndola.
+        int j = 1;
+        while (j < jornadaActual()){
+
+        	// Si el país ganó alguna medalla en la jornada
+        	// actual, agrego la jornada a la lista.
+            if(ganoMedallaEseDia(pais, j)) {
+                jornadasGanadoras.agregarAtras(j);
             }
-            y++;
+            j++;
         }
-        jornadas.agregarAtras(jornadaActual());
-        pair<Pais,int> par = make_pair (paises.iesimo(i), maxDiasSinGanar(jornadas));
-        paisDiasSinGanar.agregarAtras(par);
+        
+        // Agrego la jornada actual al final de la lista, para poder calcular
+        // las diferencias entre días (otra vez, como en la especificación.)
+        jornadasGanadoras.agregarAtras(jornadaActual());
+
+        // Calculo la máxima diferencia entre días, y agrego
+        // la tupla país/diferencia de días a la lista.
+        paisDiasSinGanar.agregarAtras(make_pair(pais, maximaDistanciaEntreJornadas(jornadasGanadoras)));
+
         i++;
     }
-    i=0;
-    int m= paisDiasSinGanar.iesimo(0).second;
-    while (i< paisDiasSinGanar.longitud()-1){
-        if ( m < paisDiasSinGanar.iesimo(i+1).second) {
-            m=paisDiasSinGanar.iesimo(i+1).second;
-        }
-        i++;
+
+    // Busco la máxima cantidad de días que algún país pasó sin ganar medallas.
+    int maximosDiasSinGanar;
+    i = 0;
+    while(i < paisDiasSinGanar.longitud()) {
+    	if(i == 0 || paisDiasSinGanar.iesimo(i).second > maximosDiasSinGanar) {
+    		maximosDiasSinGanar = paisDiasSinGanar.iesimo(i).second;
+    	}
+    	i++;
     }
-    i=0;
+
+    // Me quedo con los países cuya mayor cantidad de días sin ganar medallas
+    // es mayor o igual que la del resto de los países.
     Lista<Pais> secos;
+    i = 0;
     while (i < paisDiasSinGanar.longitud()) {
-        if (paisDiasSinGanar.iesimo(i).second==m) {
-            secos.agregarAtras(paisDiasSinGanar.iesimo(i).first);
+        if(paisDiasSinGanar.iesimo(i).second == maximosDiasSinGanar) {
+            secos.agregar(paisDiasSinGanar.iesimo(i).first);
         }
         i++;
     }
+
     return secos;
 }
 
 
-int JJOO::maxDiasSinGanar(Lista<int> lista) const{
+int JJOO::maximaDistanciaEntreJornadas(Lista<int> jornadas) const {
+	// Puedo asumir que recibo dos o más jornadas.
+
+	// Guardo acá las distancias calculadas.
+    Lista<int> distancias;
+
+    // Calculo todas las distancias entre jornadas.
     int i = 1;
-    Lista<int> list;
-    while (i<lista.longitud()){
-        list.agregarAtras(lista.iesimo(i)-lista.iesimo(i-1));
+    while (i < jornadas.longitud()){
+        distancias.agregarAtras(jornadas.iesimo(i) - jornadas.iesimo(i - 1));
         i++;
     }
-    i=0;
-    int maximo= list.iesimo(0);
-    while (i<(list.longitud()-1)){
-        if (maximo<list.iesimo(i+1)) {
-            maximo=list.iesimo(i+1);
-        }
-        i++;
+
+    // Busco la máxima distancia.
+    int maximaDistancia;
+    i = 0;
+    while(i < distancias.longitud()) {
+    	if(i == 0 || distancias.iesimo(i) > maximaDistancia) {
+    		maximaDistancia = distancias.iesimo(i);
+    	}
+    	i++;
     }
-    return maximo;
+
+    return maximaDistancia;
 }
 
-bool JJOO::ganoMedallaEseDia(Pais p, int d) const{
+bool JJOO::ganoMedallaEseDia(Pais pais, int dia) const{
     bool gano = false;
 
     // Recorro el cronograma del día.
     int i = 0;
-    while(i < cronograma(d).longitud()) {
-    	Competencia competencia = cronograma(d).iesimo(i);
+    while(i < cronograma(dia).longitud()) {
+    	Competencia competencia = cronograma(dia).iesimo(i);
 
     	// Recorro el ranking de la competencia actual hasta el tercer puesto.
     	int j = 0;
     	while(j < competencia.ranking().longitud() && j < 3) {
 
     		// El valor de retorno es true sólo si el país ganó alguna medalla.
-    		gano = gano || competencia.ranking().iesimo(j).nacionalidad() == p;
+    		gano = gano || competencia.ranking().iesimo(j).nacionalidad() == pais;
     		j++;
     	}
 
