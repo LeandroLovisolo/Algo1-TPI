@@ -130,11 +130,11 @@ Lista<pair<Pais,Lista<int> > > JJOO::ordenarMedallero(const Lista<pair<Pais,List
 	int i = 0;
 	while(i < medallero.longitud()) {
 
-		// Obtengo el país y las medallas de la tupla país/medallas actual.
-		pair<Pais, Lista<int> > paisActual = medallero.iesimo(i);
-		int oros    = paisActual.second.iesimo(0);
-		int platas  = paisActual.second.iesimo(1);
-		int bronces = paisActual.second.iesimo(2);
+		// Obtengo la tupla país/medallas actual y las medallas (para más legibilidad.)
+		pair<Pais, Lista<int> > tuplaActual = medallero.iesimo(i);
+		int oros    = tuplaActual.second.iesimo(0);
+		int platas  = tuplaActual.second.iesimo(1);
+		int bronces = tuplaActual.second.iesimo(2);
 
 		// Guardo acá una copia de las tuplas país/medallas que ya ordené, junto con
 		// la tupla país/medallas actual en la posición correcta.
@@ -153,10 +153,11 @@ Lista<pair<Pais,Lista<int> > > JJOO::ordenarMedallero(const Lista<pair<Pais,List
 			   ((oros >  orosOtro) ||
 			    (oros == orosOtro && platas >  platasOtro) ||
 			    (oros == orosOtro && platas == platasOtro && bronces >= broncesOtro))) {
-				nuevoOrdenado.agregarAtras(paisActual);
+				nuevoOrdenado.agregarAtras(tuplaActual);
 				agregado = true;
 			}
 
+			// Dejo la tupla que ya había ordenado en la posición que le corresponde.
 			nuevoOrdenado.agregarAtras(ordenado.iesimo(j));
 			j++;
 		}
@@ -164,7 +165,7 @@ Lista<pair<Pais,Lista<int> > > JJOO::ordenarMedallero(const Lista<pair<Pais,List
 		// Si luego de recorrer las tuplas país/medallas ya ordenadas resulta que todavía no agregué
 		// la tupla país/medallas actual, es porque la tupla actual es la que menos medallas tiene, y
 		// por lo tanto su posición es al final de la lista.
-		if(!agregado) nuevoOrdenado.agregarAtras(paisActual);
+		if(!agregado) nuevoOrdenado.agregarAtras(tuplaActual);
 
 		// Finalmente, reemplazo el medallero ordenado actual por mi nuevo medallero ordenado, que
 		// incluye a la tupla país/medallas actual.
