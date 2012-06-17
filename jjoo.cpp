@@ -71,12 +71,13 @@ Lista<Atleta> JJOO::dePaseo() const {
 }
 
 Lista<pair<Pais, Lista<int> > > JJOO::medallero() const {
+	Lista<Pais> paises = this->paises();
 	Lista<pair<Pais, Lista<int> > > medallero;
 
 	// Recorro la lista de países
 	int i = 0;
-	while(i < paises().longitud()) {
-		Pais pais = paises().iesimo(i);
+	while(i < paises.longitud()) {
+		Pais pais = paises.iesimo(i);
 		int oros = 0;
 		int platas = 0;
 		int bronces = 0;
@@ -739,6 +740,7 @@ void JJOO::mostrar(std::ostream& os) const {
 		int j=0;
 		while(j<_competenciasPorDia.iesimo(i).longitud()) {
 			_competenciasPorDia.iesimo(i).iesimo(j).mostrar(os);
+			os << endl;
 			j++;
 		}
 		i++;
