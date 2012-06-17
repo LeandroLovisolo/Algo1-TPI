@@ -74,7 +74,7 @@ Lista<pair<Pais, Lista<int> > > JJOO::medallero() const {
 	Lista<Pais> paises = this->paises();
 	Lista<pair<Pais, Lista<int> > > medallero;
 
-	// Recorro la lista de países
+	// Recorro la lista de países.
 	int i = 0;
 	while(i < paises.longitud()) {
 		Pais pais = paises.iesimo(i);
@@ -82,7 +82,7 @@ Lista<pair<Pais, Lista<int> > > JJOO::medallero() const {
 		int platas = 0;
 		int bronces = 0;
 
-		// Recorro los rankings de todas las competencias y acumulo las medallas del país actual
+		// Recorro los rankings de todas las competencias y acumulo las medallas del país actual.
 		int j = 0;
 		while(j < competencias().longitud()) {
 			Lista<Atleta> ranking = competencias().iesimo(j).ranking();
@@ -911,6 +911,8 @@ void JJOO::cargar (std::istream& is) {
  *          AUXILIARES          *
  ********************************/
 
+// Devuelve una lista de atletas donde cada atleta aparece tantas
+// veces como la cantidad de competencias en las que participa.
 Lista<Atleta> JJOO::participantes() const {
 	Lista<Atleta> participantes;
 	int i = 0;
