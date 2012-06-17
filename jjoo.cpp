@@ -300,8 +300,6 @@ void JJOO::liuSong(const Atleta& a, const Pais p) {
 		i++;
 	}
 
-	atletaNacionalizado.mostrar(cout);
-
 	//Saco el atleta y lo agrego nacionalizado en atletas;
 	_atletas.sacar(a);
 	_atletas.agregarAtras(atletaNacionalizado);
