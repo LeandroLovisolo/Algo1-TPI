@@ -106,12 +106,13 @@ void Competencia::mostrar(std::ostream& os) const {
 	else {
 		os << "Femeninio";
 	}
-	os << endl << "Participantes:" << endl;
+	os << endl << "Participantes:";
 	int i=0;
 	while(i<participantes().longitud()) {
+		os << endl;
 		os << "  " << participantes().iesimo(i).nombre() <<
 		      " (#" << participantes().iesimo(i).ciaNumber() << "). " <<
-		      "Capacidad: " << participantes().iesimo(i).capacidad(_categoria.first) << endl;
+		      "Capacidad: " << participantes().iesimo(i).capacidad(_categoria.first);
 		i++;
 	}
 	os << endl << "Finalizada: ";
