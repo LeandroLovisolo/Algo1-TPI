@@ -290,8 +290,6 @@ Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
   return atlesFracasados;
 }
 
-//Por que se crea toda la lista otra vez? porque no hay funciones publicas que permitan modificar atletas en competencias, incluso
-//iesimo devuelve una constante, no queda otra
 void JJOO::liuSong(const Atleta& a, const Pais p) {
 	Atleta atletaNacionalizado(a.nombre(), a.sexo(), a.anioNacimiento(), p, a.ciaNumber());
 	int i = 0;
@@ -313,17 +311,17 @@ void JJOO::liuSong(const Atleta& a, const Pais p) {
 		Lista<Competencia> nuevaCompetenciasEnDia;
 		j = 0;
 		while(j<_competenciasPorDia.iesimo(i).longitud()) {
+			Competencia viejaCompe = _competenciasPorDia.iesimo(i).iesimo(j);
 			//Me fijo si esa competencia tiene al atleta, si no, la dejo como estaba
-			if(_competenciasPorDia.iesimo(i).iesimo(j).participantes().pertenece(a)) {
-				Competencia viejaCompe = _competenciasPorDia.iesimo(i).iesimo(j);
+			if(viejaCompe.participantes().pertenece(a)) {
 				//Creo la nueva lista de participantes
 				Lista<Atleta> nuevosParticipantes = viejaCompe.participantes();
 				nuevosParticipantes.sacar(a);
 				nuevosParticipantes.agregarAtras(atletaNacionalizado);
 				//
 				//Guardo la categoria
-				Deporte dep = _competenciasPorDia.iesimo(i).iesimo(j).categoria().first;
-				Sexo sex = _competenciasPorDia.iesimo(i).iesimo(j).categoria().second;
+				Deporte dep = viejaCompe.categoria().first;
+				Sexo sex = viejaCompe.categoria().second;
 				//
 				//Creo lo que va a ser la nueva competencia con el atleta cambiado
 				//
@@ -335,7 +333,7 @@ void JJOO::liuSong(const Atleta& a, const Pais p) {
 					Lista<int> ranking;
 					Lista<pair<int, bool> > control;
 					while(h<viejaCompe.ranking().longitud()) {
-						ranking.agregarAtras(_competenciasPorDia.iesimo(i).iesimo(j).ranking().iesimo(h).ciaNumber());
+						ranking.agregarAtras(viejaCompe.ranking().iesimo(h).ciaNumber());
 						h++;
 					}
 					h = 0;
@@ -353,7 +351,7 @@ void JJOO::liuSong(const Atleta& a, const Pais p) {
 				nuevaCompetenciasEnDia.agregarAtras(nuevaCompe);
 			}
 			else {
-				nuevaCompetenciasEnDia.agregarAtras(_competenciasPorDia.iesimo(i).iesimo(j));
+				nuevaCompetenciasEnDia.agregarAtras(viejaCompe);
 			}
 			j++;
 		}
