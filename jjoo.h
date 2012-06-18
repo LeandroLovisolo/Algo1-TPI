@@ -30,11 +30,11 @@ class JJOO{
         Lista<Pais> sequiaOlimpica() const;
         void transcurrirDia();
 
-		bool operator==(const JJOO& j) const;
+        bool operator==(const JJOO& j) const;
 
         void mostrar(std::ostream& os) const;
-		void guardar(std::ostream& os) const;
-		void cargar (std::istream& is);
+        void guardar(std::ostream& os) const;
+        void cargar (std::istream& is);
 
     private:
         int _anio;

@@ -26,9 +26,9 @@ class Competencia{
 
         void mostrar(std::ostream& os) const;
         void guardar(std::ostream& os) const;
-		void cargar (std::istream& is);
+        void cargar (std::istream& is);
 
-	private:
+    private:
         Categoria _categoria;
         Lista<Atleta> _participantes;
         bool _finalizada;
