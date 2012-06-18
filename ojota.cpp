@@ -31,7 +31,7 @@ Lista<Atleta> obtenerCampeones(const JJOO & j) {
 		campeones.agregarAtras(competenciasOro.iesimo(i).ranking().cabeza());
 
 		// Estado E2
-		// Vale    campeones == campeones@E1 ++ [cab(ranking(competenciasOro[i]))]
+		// Vale    i = i@E1 && campeones == campeones@E1 ++ [cab(ranking(competenciasOro[i]))]
 		// Implica campeones == [cab(ranking(c)) | c <- competenciasOro[0..i)] ++ [cab(ranking(competenciasOro[i]))]
 		// Implica campeones == [cab(ranking(c)) | c <- competenciasOro[0..i]]
 		i++;
@@ -126,19 +126,19 @@ Atleta atletaProdigio(const JJOO & j) {
 
 		if(campeones.iesimo(i).anioNacimiento() > prodigio.anioNacimiento()) {
 			// Estado F
-			// Vale añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1)
+			// Vale i == i@E1 && añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1)
 			prodigio = campeones.iesimo(i);
 
 			// Estado G
-			// Vale añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1) && prodigio == campeones[i]
+			// Vale i == i@E1 && añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1) && prodigio == campeones[i]
 		} else {
 
 			// Estado H
-			// Vale añoNacimiento(campeones[i]) <= añoNacimiento(prodigio)  && prodigio == prodigio@E1
+			// Vale i == i@E1 && añoNacimiento(campeones[i]) <= añoNacimiento(prodigio)  && prodigio == prodigio@E1
 		}
 
 		// Estado E2
-		// Vale    G || H
+		// Vale      G || H
 		// Implica  (añoNacimiento(campeones[i]) >  añoNacimiento(prodigio@E1) && prodigio == campeones[i]) ||
 		//          (añoNacimiento(campeones[i]) <= añoNacimiento(prodigio)    && prodigio == prodigio@E1)
 		// Implica   añoNacimiento(prodigio) >= añoNacimiento(campeones[i])
