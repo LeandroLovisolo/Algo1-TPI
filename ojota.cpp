@@ -126,15 +126,15 @@ Atleta atletaProdigio(const JJOO & j) {
 
 		if(campeones.iesimo(i).anioNacimiento() > prodigio.anioNacimiento()) {
 			// Estado F
-			// Vale i == i@E1 && añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1)
+			// Vale i == i@E1 && campeones == campeones@E1 && añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1)
 			prodigio = campeones.iesimo(i);
 
 			// Estado G
-			// Vale i == i@E1 && añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1) && prodigio == campeones[i]
+			// Vale i == i@E1 && campeones == campeones@E1 && añoNacimiento(campeones[i]) > añoNacimiento(prodigio@E1) && prodigio == campeones[i]
 		} else {
 
 			// Estado H
-			// Vale i == i@E1 && añoNacimiento(campeones[i]) <= añoNacimiento(prodigio)  && prodigio == prodigio@E1
+			// Vale i == i@E1 && campeones == campeones@E1 && añoNacimiento(campeones[i]) <= añoNacimiento(prodigio)  && prodigio == prodigio@E1
 		}
 
 		// Estado E2
