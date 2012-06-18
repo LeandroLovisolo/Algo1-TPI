@@ -44,19 +44,26 @@ class JJOO{
 
         enum {ENCABEZADO_ARCHIVO = 'J'};
 
-        Lista<Atleta> participantes() const;
+        // Auxiliares generales
         Lista<Pais> paises() const;
+        Lista<Atleta> participantes() const;
+
+        // Auxiliares JJOO::medallero()
         Lista<pair<Pais,Lista<int> > > ordenarMedallero(const Lista<pair<Pais,Lista<int> > > &) const;
+
+        // Auxiliares JJOO::sequiaOlimpica()
+        bool ganoMedallasEseDia(Pais p, int x) const;
+        int maximaDistanciaEntreJornadas(Lista<int> jornadas) const;
+
+        // Auxiliares JJOO::transcurrirDia()
+        Competencia finalizarCompetencia(const Competencia& competencia) const;
+        Lista<int> generarRanking(const Competencia& competencia) const;
+        Lista<pair<int, bool> > generarAntidoping(const Competencia& competencia) const;
+        void reemplazarCronogramaJornadaActual(Lista<Competencia> nuevoCronograma);
+
+        // Auxiliares JJOO::operator==()
         bool mismosAtletas(const JJOO& c) const;
         bool mismoCronograma(const JJOO& j) const;
-        Lista<int> rank(Competencia c);
-        int maxPos(Lista<pair<int,int> > a, int desde, int hasta);
-        Lista<pair<int, bool> > doping(const Competencia c);
-        Lista<Lista<Competencia> > m(Lista<Lista<Competencia> > h, Lista<Competencia> comp, int w);
-        Lista<pair<int,int> > capacidades(const Deporte d , Lista<Atleta> atle);
-        Lista<pair<int,int> > swap(Lista<pair<int,int> > lista, int a, int b);
-        bool ganoMedallaEseDia(Pais p, int x) const;
-        int maximaDistanciaEntreJornadas(Lista<int> jornadas) const;
 };
 
 std::ostream & operator<<(std::ostream & os,const JJOO & j);

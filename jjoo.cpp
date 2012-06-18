@@ -537,7 +537,7 @@ Lista<Pais> JJOO::sequiaOlimpica() const {
 
         	// Si el país ganó alguna medalla en la jornada
         	// actual, agrego la jornada a la lista.
-            if(ganoMedallaEseDia(pais, j)) {
+            if(ganoMedallasEseDia(pais, j)) {
                 jornadasGanadoras.agregarAtras(j);
             }
             j++;
@@ -604,7 +604,7 @@ int JJOO::maximaDistanciaEntreJornadas(Lista<int> jornadas) const {
     return maximaDistancia;
 }
 
-bool JJOO::ganoMedallaEseDia(Pais pais, int dia) const{
+bool JJOO::ganoMedallasEseDia(Pais pais, int dia) const{
     bool gano = false;
 
     // Recorro el cronograma del día.
@@ -628,121 +628,108 @@ bool JJOO::ganoMedallaEseDia(Pais pais, int dia) const{
 }
 
 void JJOO::transcurrirDia() {
+	// Guardo acá el nuevo cronograma de la jornada actual.
+    Lista<Competencia> nuevoCronogramaJornadaActual;
+
+    // Recorro las competencias de la jornada actual.
     int i = 0;
-    //f va a ser el cronograma cambiado, con las competencias que finalizaron mas las que voy a finalizar
-    Lista<Competencia> f;
-    while (i < cronograma(jornadaActual()).longitud()){
-        //me fijo que competencias ya finalizaron en el cronograma
-        if (!((cronograma(jornadaActual()).iesimo(i)).finalizada())) {
-            //guardos los datos de la competencia que tengo que finalizar
-            Lista<Atleta> participan= cronograma(jornadaActual()).iesimo(i).participantes();
-            Deporte dep= (cronograma(jornadaActual()).iesimo(i).categoria()).first;
-            Sexo sex= (cronograma(jornadaActual()).iesimo(i).categoria()).second;
-            //creo una competencia con los datos de la anterior asi la puedo finalizar
-            Competencia nuevaC(dep, sex, participan);
-            //la finalizo con el ranking y doping creados en los aux
-            nuevaC.finalizar(rank(cronograma(jornadaActual()).iesimo(i)),doping(cronograma(jornadaActual()).iesimo(i)));
-            //la agrego al cronograma nuevo
-            f.agregarAtras(nuevaC);
+    while(i < cronograma(jornadaActual()).longitud()) {
+    	Competencia competencia = cronograma(jornadaActual()).iesimo(i);
+
+        // Si la competencia no estaba finalizada, la finalizo.
+        if (!competencia.finalizada()) {
+        	competencia = finalizarCompetencia(competencia);
         }
-        else {
-            //si la competencia ya estaba finalizada, la agrego directamente al cronograma nuevo
-            f.agregarAtras(cronograma(jornadaActual()).iesimo(i));
-        }
+
+        // Agrego competencia al nuevo cronograma.
+		nuevoCronogramaJornadaActual.agregarAtras(competencia);
         i++;
     }
-    //cambio la lista vieja de cronogramas por la nueva al JJOO
-    _competenciasPorDia = m(_competenciasPorDia, f, jornadaActual());
-    if(_jornadaActual != cantDias()) {
-    	_jornadaActual += 1;
-    }
 
+    // Reemplazo el cronograma de la jornada actual por el nuevo cronograma finalizado.
+    reemplazarCronogramaJornadaActual(nuevoCronogramaJornadaActual);
+
+    // Transcurro el día.
+    _jornadaActual++;
 }
 
-//voy a hacer una lista de los cronogramas, reemplazando el de la jornada actual por el que cree
-Lista<Lista<Competencia> > JJOO::m(Lista<Lista<Competencia> > h, Lista<Competencia> comp, int w){
-    int i=0;
-    Lista<Lista<Competencia> > f;
-    while (i < h.longitud()) {
-        if (i!=(w-1)) {
-            f.agregarAtras(h.iesimo(i));
-        }
-        else {
-            f.agregarAtras(comp);
-        }
-        i++;
-    }
-    return f;
+Competencia JJOO::finalizarCompetencia(const Competencia& competencia) const  {
+	// Creo una copia de la competencia.
+	Competencia finalizada(competencia.categoria().first,
+			               competencia.categoria().second,
+			               competencia.participantes());
+
+	// Finalizo la competencia generando un ranking y un control antidoping.
+	finalizada.finalizar(generarRanking(competencia), generarAntidoping(competencia));
+
+    return finalizada;
 }
 
-//devuelve una lista de tuplas con el cia num y capacidad para el deporte asignado
-Lista<pair<int,int> > JJOO::capacidades(const Deporte d , Lista<Atleta> atle) {
+Lista<int> JJOO::generarRanking(const Competencia& competencia) const {
+	// Guardo acá el ranking construído.
+	Lista<int> ranking;
+
+	Lista<Atleta> participantesSinRankear = competencia.participantes();
+
+	// Rankeo todos los participantes hasta quedarme sin participantes para rakear.
+	while(participantesSinRankear.longitud() > 0) {
+
+		// Busco el participante con menos capacidad entre los que aún no fueron rankeados.
+		Atleta peorParticipante;
+		int i = 0;
+		while(i < participantesSinRankear.longitud()) {
+			Deporte deporte = competencia.categoria().first;
+			Atleta participante = participantesSinRankear.iesimo(i);
+
+			// En caso de ser el peor hasta el momento, me quedo con el participante i-ésimo.
+			if(i == 0 || participante.capacidad(deporte) < peorParticipante.capacidad(deporte)) {
+				peorParticipante = participante;
+			}
+
+			i++;
+		}
+
+		// Agrego el peor participante hallado al principio del ranking.
+		ranking.agregar(peorParticipante.ciaNumber());
+
+		// Lo elimino de la lista de participantes sin rankear.
+		participantesSinRankear.eliminarPosicion(participantesSinRankear.posicion(peorParticipante));
+	}
+
+	return ranking;
+}
+
+Lista<pair<int,bool> > JJOO::generarAntidoping(const Competencia& competencia) const {
+    Lista<pair<int,bool> > antidoping;
+
+    // Tomo al primer participante y lo agrego al control, con resultado falso.
+	if(competencia.participantes().longitud() > 0) {
+		antidoping.agregar(make_pair(competencia.participantes().cabeza().ciaNumber(), false));
+	}
+
+    return antidoping;
+}
+
+void JJOO::reemplazarCronogramaJornadaActual(Lista<Competencia> nuevoCronograma) {
+	Lista<Lista<Competencia> > nuevasCompetenciasPorDia;
+
+	// Recorro todas las jornadas.
     int i = 0;
-    Lista<pair<int,int> > cap;
-    while (i < atle.longitud()) {
-        pair<int, int> par= make_pair (atle.iesimo(i).ciaNumber(),atle.iesimo(i).capacidad(d));
-        cap.agregarAtras(par);
+    while (i < _competenciasPorDia.longitud()) {
+
+    	// Si la i-ésima jornada es la actual, reemplazo
+    	// su cronograma por el recibido como parámetro.
+    	if(i == _jornadaActual - 1) {
+    		nuevasCompetenciasPorDia.agregarAtras(nuevoCronograma);
+    	} else {
+    		nuevasCompetenciasPorDia.agregarAtras(_competenciasPorDia.iesimo(i));
+    	}
+
         i++;
     }
-    return cap;
-}
-//cambio 2 elementos de lugar
-Lista<pair<int,int> > JJOO::swap(Lista<pair<int,int> > lista, int a, int b){
-    pair<int, int> c;
-    Lista<pair<int,int> > swaped;
-    int i = 0;
-    while (i < lista.longitud()) {
-        if ( (i==a) ) {
-            swaped.agregarAtras(lista.iesimo(b));
-        }
-        else {
-            if ( (i==b) ) {
-                swaped.agregarAtras(lista.iesimo(a));
-            }
-            else {
-                swaped.agregarAtras(lista.iesimo(i));
-            }
-        }
-    i++;
-    }
-    return swaped;
-}
 
-//creo el ranking ordenado de mayor capacidad a menor
-Lista<int> JJOO::rank(Competencia c){
-    int m, actual = c.participantes().longitud()-1;
-    Lista<int> x;
-    Lista<pair<int,int> > cambiada = capacidades(c.categoria().first, c.participantes());
-    while (actual >= 0) {
-        m= maxPos(cambiada,0,actual);
-        cambiada= swap(cambiada, actual, m);
-        x.agregarAtras(cambiada.iesimo(actual).first);
-        actual--;
-    }
-    return x;
-}
-
-//busca en que posicion esta el elemento con mayor capacidad
-int JJOO::maxPos(Lista<pair<int,int> > a, int desde, int hasta) {
-    int mp = desde;
-    int i = desde;
-    while (i < hasta) {
-        i++;
-        if (a.iesimo(i).second > a.iesimo(mp).second) mp = i;
-    }
-    return mp;
-}
-
-//creo la lista de antidoping de longitud 1, y false asi mismos(ranking(x),participantes(x)) se cumple
-Lista<pair<int,bool> > JJOO::doping(const Competencia c){
-    Lista<pair<int,bool> > x;
-    pair<int,bool> y;
-        if ((c.participantes()).longitud() >= 1 ) {
-            y = make_pair (((c.participantes()).cabeza()).ciaNumber(), false);
-            x.agregar(y);
-        }
-
-    return x;
+    // Reemplazo por las nuevas competencias.
+    _competenciasPorDia = nuevasCompetenciasPorDia;
 }
 
 bool JJOO::operator==(const JJOO& j) const {
