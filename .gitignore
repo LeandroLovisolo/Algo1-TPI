@@ -30,3 +30,9 @@ bin/
 .project
 .cproject
 Debug/
+
+# Print deliverable related
+*.swp
+*.odt#
+*.html
+
