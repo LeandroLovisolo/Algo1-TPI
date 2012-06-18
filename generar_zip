@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rm TPI.zip
+zip TPI.zip atleta.cpp  atleta.h  competencia.cpp  competencia.h  interfaz.cpp  interfaz.h  jjoo.cpp  jjoo.h  lista.h  ojota.cpp  tipos.h
+
