@@ -749,44 +749,61 @@ bool JJOO::operator==(const JJOO& j) const {
 }
 
 bool JJOO::mismosAtletas(const JJOO& j) const {
-	int i = 0;
 	bool igual = true;
+
+	// Verifico misma cantidad de atletas.
 	if(_atletas.longitud() == j.atletas().longitud()) {
-		while(i<_atletas.longitud()) {
+
+		// Recorro lista de atletas de instancia a comparar.
+		int i = 0;
+		while(i < _atletas.longitud()) {
+
+			// Verfico que ambas instancias tengan los mismos atletas.
 			if(!j.atletas().pertenece(_atletas.iesimo(i))) {
 				igual = false;
 			}
 			i++;
 		}
-	}
-	else {
+	} else {
 		igual = false;
 	}
+
 	return igual;
 }
 
 bool JJOO::mismoCronograma(const JJOO& j) const {
 	bool igual = true;
+
+	// Verifico misma cantidad de días.
 	if(cantDias() == j.cantDias()) {
-		int i=1;
-		while(i<cantDias()) {
-			if(cronograma(i) == j.cronograma(i)) {
-				int y = 0;
-				while(y<cronograma(i).longitud()) {
-					if(!j.cronograma(i).pertenece(this->cronograma(i).iesimo(y))) {
+
+		// Recorro el cronograma día por día.
+		int i = 1;
+		while(i < cantDias()) {
+
+			// Verifico misma cantidad de competencias en la jornada i-ésima.
+			if(cronograma(i).longitud() == j.cronograma(i).longitud()) {
+
+				// Recorro competencias de la instancia de JJOO a comparar.
+				int k = 0;
+				while(k < j.cronograma(i).longitud()) {
+
+					// Verifico que ambos cronogramas tengan las mismas competencias.
+					if(!cronograma(i).pertenece(j.cronograma(i).iesimo(k))) {
 						igual = false;
 					}
+
+					k++;
 				}
-			}
-			else {
+			} else {
 				igual = false;
 			}
 			i++;
 		}
-	}
-	else {
+	} else {
 		igual = false;
 	}
+
 	return igual;
 }
 
