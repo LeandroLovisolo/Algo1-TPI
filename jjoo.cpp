@@ -349,9 +349,10 @@ Lista<Atleta> JJOO::losMasFracasados(const Pais p) const {
         int m=0;
         while (m < atles.longitud()){
             //No estabas viendo si el que tenia la misma cantidad de apariciones era el mismo
-            if (atlecomp.cantidadDeApariciones(maxAp)==atlecomp.cantidadDeApariciones(atles.iesimo(m)) && !(atles.iesimo(m) == maxAp)){
+            if(   atlecomp.cantidadDeApariciones(maxAp) == atlecomp.cantidadDeApariciones(atles.iesimo(m)) &&
+                !(atles.iesimo(m) == maxAp)) {
                 atlesFracasados.agregar(atles.iesimo(m));
-                }
+            }
             m++;
         }
     }

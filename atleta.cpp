@@ -86,8 +86,11 @@ void Atleta::entrenarNuevoDeporte(const Deporte deporte, const int capacidad) {
 }
 
 bool Atleta::operator==(const Atleta& a) const {
-    bool igual = this->_nombre == a.nombre() && this->_sexo == a.sexo() && this->_anioNacimiento == a.anioNacimiento() &&
-            this->_nacionalidad == a.nacionalidad() && this->_ciaNumber == a.ciaNumber();
+    bool igual = _nombre         == a._nombre         &&
+    		     _sexo           == a._sexo           &&
+    		     _anioNacimiento == a._anioNacimiento &&
+    		     _nacionalidad   == a._nacionalidad   &&
+    		     _ciaNumber      == a._ciaNumber;
 
     int i=0;
     if(a.deportes() == this->deportes()) {
