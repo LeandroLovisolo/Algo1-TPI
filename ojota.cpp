@@ -141,19 +141,19 @@ Atleta atletaProdigio(const JJOO & j) {
 		// Vale    G || H
 		// Implica  (añoNacimiento(campeones[i]) >  añoNacimiento(prodigio@E1) && prodigio == campeones[i]) ||
 		//          (añoNacimiento(campeones[i]) <= añoNacimiento(prodigio)    && prodigio == prodigio@E1)
+		// Implica   añoNacimiento(prodigio) >= añoNacimiento(campeones[i])
 		// Implica   prodigio ∈ campeones
-		// Implica   añoNacimiento(prodigio) >  añoNacimiento(prodigio@E1) ||
-		//           añoNacimiento(prodigio) == añoNacimiento(prodigio@E1)
-		// Implica ((∀c ∈ campeones[0..i)) añoNacimiento(prodigio) >  añoNacimiento(prodigio@E1) >= añoNacimiento(c)) ||
-		//         ((∀c ∈ campeones[0..i)) añoNacimiento(prodigio) == añoNacimiento(prodigio@E1) >= añoNacimiento(c))
-		// Implica   prodigio ∈ campeones && (∀c ∈ campeones[0..i)) añoNacimiento(prodigio) >= añoNacimiento(c)
+		// Implica   (∀c ∈ campeones[0..i]) añoNacimiento(prodigio) >= añoNacimiento(c)
 
 		i++;
 		// Estado E3
-		// Vale    i == i@E2 + 1 && prodigio ∈ campeones && (∀c ∈ campeones[0..i)) añoNacimiento(prodigio) >= añoNacimiento(c)
+		// Vale    i == i@E2 + 1 && prodigio ∈ campeones && (∀c ∈ campeones[0..i@E2]) añoNacimiento(prodigio) >= añoNacimiento(c)
 		// Implica 1 < i
 		// Implica i == i@E2 + 1 < |campeones| + 1 <= |campeones|
 		// Implica 1 <= i <= |campeones|
+		// Implica i@E2 == i - 1
+		// Implica (∀c ∈ campeones[0..i - 1]) añoNacimiento(prodigio) >= añoNacimiento(c)
+		// Implica (∀c ∈ campeones[0..i)) añoNacimiento(prodigio) >= añoNacimiento(c)
 		// Implica 1 <= i <= |campeones| && prodigio ∈ campeones && (∀c ∈ campeones[0..i)) añoNacimiento(prodigio) >= añoNacimiento(c)
 		//
 		// Luego, E3 -> I.
