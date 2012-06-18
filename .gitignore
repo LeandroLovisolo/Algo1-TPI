@@ -15,9 +15,6 @@
 *.cbp
 *.layout
 
-# PDF files
-*.pdf
-
 # Build system
 CMake*
 Makefile
@@ -30,6 +27,10 @@ bin/
 .project
 .cproject
 Debug/
+
+# Course PDF files
+enunciadoTPI.pdf
+especificacion.pdf
 
 # Print deliverable related
 *.swp
